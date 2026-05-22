@@ -130,6 +130,22 @@ typedef struct
     __vo uint32_t LCKR;     /*!< GPIO port configuration lock register, Address offset: 0x1C      */
     __vo uint32_t AFR[2];   /*!< GPIO alternate function registers,     Address offset: 0x20-0x24 */        
 } GPIO_RegDef_t;
+
+/**
+  * @brief SPI
+  */
+
+typedef struct
+{
+  
+} SPI_RegDef_t;
+/**
+  * @brief I2C
+  */
+
+/**
+  * @brief UART
+  */
 /** @addtogroup Base_addresses_for_peripherals
   * @{
   */  
@@ -214,26 +230,26 @@ typedef struct
 /*
  * AHB1 bus peripherals
 */
-#define GPIOA_BASEADDR                   (AHB1_BASEADDR + 0x0000UL)
-#define GPIOB_BASEADDR                   (AHB1_BASEADDR + 0x0400UL)
-#define GPIOC_BASEADDR 					 (AHB1_BASEADDR + 0x0800UL)
-#define GPIOD_BASEADDR 					 (AHB1_BASEADDR + 0x0C00UL)
-#define GPIOE_BASEADDR 					 (AHB1_BASEADDR + 0x1000UL)
-#define GPIOF_BASEADDR 					 (AHB1_BASEADDR + 0x1400UL)
-#define GPIOG_BASEADDR 					 (AHB1_BASEADDR + 0x1800UL)
-#define GPIOH_BASEADDR 					 (AHB1_BASEADDR + 0x1C00UL)
-#define GPIOI_BASEADDR 					 (AHB1_BASEADDR + 0x2000UL)
-#define GPIOJ_BASEADDR 					 (AHB1_BASEADDR + 0x2400UL)
-#define GPIOK_BASEADDR 					 (AHB1_BASEADDR + 0x2800UL)
-#define CRC_BASEADDR 					 (AHB1_BASEADDR + 0x3000UL)
-#define RCC_BASEADDR 					 (AHB1_BASEADDR + 0x3800UL)
+#define GPIOA_BASEADDR               (AHB1_BASEADDR + 0x0000UL)
+#define GPIOB_BASEADDR               (AHB1_BASEADDR + 0x0400UL)
+#define GPIOC_BASEADDR 					     (AHB1_BASEADDR + 0x0800UL)
+#define GPIOD_BASEADDR 					     (AHB1_BASEADDR + 0x0C00UL)
+#define GPIOE_BASEADDR 					     (AHB1_BASEADDR + 0x1000UL)
+#define GPIOF_BASEADDR 					     (AHB1_BASEADDR + 0x1400UL)
+#define GPIOG_BASEADDR 					     (AHB1_BASEADDR + 0x1800UL)
+#define GPIOH_BASEADDR 					     (AHB1_BASEADDR + 0x1C00UL)
+#define GPIOI_BASEADDR 					     (AHB1_BASEADDR + 0x2000UL)
+#define GPIOJ_BASEADDR 					     (AHB1_BASEADDR + 0x2400UL)
+#define GPIOK_BASEADDR 					     (AHB1_BASEADDR + 0x2800UL)
+#define CRC_BASEADDR 					       (AHB1_BASEADDR + 0x3000UL)
+#define RCC_BASEADDR 					       (AHB1_BASEADDR + 0x3800UL)
 #define FLASH_INTERFACE_BASEADDR 		 (AHB1_BASEADDR + 0x3C00UL)
-#define BKPSRAM_BASEADDR 				 (AHB1_BASEADDR + 0x4000UL)
-#define DMA1_BASEADDR 					 (AHB1_BASEADDR + 0x6000UL)
-#define DMA2_BASEADDR 					 (AHB1_BASEADDR + 0x6400UL)
-#define ETH_BASEADDR 					 (AHB1_BASEADDR + 0x8000UL) 
-#define DMA2D_BASEADDR 					 (AHB1_BASEADDR + 0xB000UL)
-#define USB_OTG_HS_BASEADDR 			 (AHB1_BASEADDR + 0x20000UL)
+#define BKPSRAM_BASEADDR 				     (AHB1_BASEADDR + 0x4000UL)
+#define DMA1_BASEADDR 					     (AHB1_BASEADDR + 0x6000UL)
+#define DMA2_BASEADDR 					     (AHB1_BASEADDR + 0x6400UL)
+#define ETH_BASEADDR 					       (AHB1_BASEADDR + 0x8000UL) 
+#define DMA2D_BASEADDR 					     (AHB1_BASEADDR + 0xB000UL)
+#define USB_OTG_HS_BASEADDR 			   (AHB1_BASEADDR + 0x20000UL)
 
 
 /*
@@ -241,16 +257,16 @@ typedef struct
 */
 
 #define USB_OTG_FS_BASEADDR 			 (AHB2_BASEADDR + 0x0000UL)
-#define DCMI_BASEADDR 					 (AHB2_BASEADDR + 0x50000UL)
-#define CRYP_BASEADDR 					 (AHB2_BASEADDR + 0x60000UL)
-#define HASH_BASEADDR 					 (AHB2_BASEADDR + 0x60400UL)    
-#define RNG_BASEADDR 					 (AHB2_BASEADDR + 0x60800UL)
+#define DCMI_BASEADDR 					   (AHB2_BASEADDR + 0x50000UL)
+#define CRYP_BASEADDR 					   (AHB2_BASEADDR + 0x60000UL)
+#define HASH_BASEADDR 					   (AHB2_BASEADDR + 0x60400UL)    
+#define RNG_BASEADDR 					     (AHB2_BASEADDR + 0x60800UL)
 
 /*
  * AHB3 bus peripherals
 */
 
-#define FMC_BASEADDR 					 (AHB3_BASEADDR + 0x0000UL)
+#define FMC_BASEADDR 					     (AHB3_BASEADDR + 0x0000UL)
 
 
 /*

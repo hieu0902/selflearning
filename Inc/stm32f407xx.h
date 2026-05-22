@@ -137,15 +137,67 @@ typedef struct
 
 typedef struct
 {
-  
+   __vo uint32_t CR1;       /* SPI control register 1,               Address offset: 0x00      */
+   __vo uint32_t CR2;       /* SPI control register 2,               Address offset: 0x04      */
+   __vo uint32_t SR;        /* SPI status register,                  Address offset: 0x08      */
+   __vo uint32_t DR;        /* SPI data register,                    Address offset: 0x0C      */
+   __vo uint32_t CRCPR;     /* SPI CRC polynomial register,          Address offset: 0x10      */
+   __vo uint32_t RXCRCR;    /* SPI RX CRC register,                  Address offset: 0x14      */
+   __vo uint32_t TXCRCR;    /* SPI TX CRC register,                  Address offset: 0x18      */
+   __vo uint32_t I2SCFGR;   /* SPI_I2S configuration register,       Address offset: 0x1C      */
+   __vo uint32_t I2SPR;     /* SPI_I2S prescaler register,           Address offset: 0x20      */
 } SPI_RegDef_t;
 /**
   * @brief I2C
   */
 
+typedef struct
+{
+    __vo uint32_t CR1;       /* I2C control register 1,               Address offset: 0x00      */
+    __vo uint32_t CR2;       /* I2C control register 2,               Address offset: 0x04      */
+    __vo uint32_t OAR1;      /* I2C own address register 1,           Address offset: 0x08      */
+    __vo uint32_t OAR2;      /* I2C own address register 2,           Address offset: 0x0C      */
+    __vo uint32_t DR;        /* I2C data register,                    Address offset: 0x10      */
+    __vo uint32_t SR1;       /* I2C status register 1,                Address offset: 0x14      */
+    __vo uint32_t SR2;       /* I2C status register 2,                Address offset: 0x18      */
+    __vo uint32_t CCR;       /* I2C clock control register,           Address offset: 0x1C      */
+    __vo uint32_t TRISE;     /* I2C TRISE register,                   Address offset: 0x20      */
+} I2C_RegDef_t;
 /**
-  * @brief UART
+  * @brief USART
   */
+typedef struct
+{
+    __vo uint32_t SR;        /* USART Status register,                Address offset: 0x00      */
+    __vo uint32_t DR;        /* USART Data register,                  Address offset: 0x04      */
+    __vo uint32_t BRR;       /* USART Baud rate register,             Address offset: 0x08      */
+    __vo uint32_t CR1;       /* USART Control register 1,             Address offset: 0x0C      */
+    __vo uint32_t CR2;       /* USART Control register 2,             Address offset: 0x10      */
+    __vo uint32_t CR3;       /* USART Control register 3,             Address offset: 0x14      */
+    __vo uint32_t GTPR;      /* USART Guard time and prescaler register, Address offset: 0x18   */
+} USART_RegDef_t;
+
+/**
+  * @brief RCC
+  */
+
+typedef struct
+{
+    __vo uint32_t CR;        /* RCC clock control register,           Address offset: 0x00      */
+    __vo uint32_t PLLCFGR;   /* RCC PLL configuration register,       Address offset: 0x04      */
+    __vo uint32_t CFGR;      /* RCC clock configuration register,     Address offset: 0x08      */
+    __vo uint32_t CIR;       /* RCC clock interrupt register,         Address offset: 0x0C      */
+    __vo uint32_t AHB1RSTR;  /* RCC AHB1 peripheral reset register,   Address offset: 0x10      */
+    __vo uint32_t AHB2RSTR;  /* RCC AHB2 peripheral reset register,   Address offset: 0x14      */
+    __vo uint32_t AHB3RSTR;  /* RCC AHB3 peripheral reset register,   Address offset: 0x18      */
+    __vo uint32_t APB1RSTR;  /* RCC APB1 peripheral reset register,   Address offset: 0x20      */
+    __vo uint32_t APB2RSTR;  /* RCC APB2 peripheral reset register,   Address offset: 0x24      */
+    __vo uint32_t AHB1ENR;   /* RCC AHB1 peripheral clock enable register, Address offset: 0x30   */
+    __vo uint32_t AHB2ENR;   /* RCC AHB2 peripheral clock enable register, Address offset: 0x34   */
+    __vo uint32_t AHB3ENR;   /* RCC AHB3 peripheral clock enable register, Address offset: 0x38   */
+    __vo uint32_t APB1ENR;   /* RCC APB1 peripheral clock enable register, Address offset: 0x40   */
+    __vo uint32_t APB2ENR;   /* RCC APB2 peripheral clock enable register, Address offset: 0x44   */
+} RCC_RegDef_t;
 /** @addtogroup Base_addresses_for_peripherals
   * @{
   */  
@@ -156,7 +208,7 @@ typedef struct
 #define SRAM1_BASEADDR 0x20000000UL
 #define SRAM2_BASEADDR 0x2001C000UL
 #define ROM_BASEADDR   0x1FFF0000UL
-#define SRAM 		   SRAM1_BASEADDR
+#define SRAM 		       SRAM1_BASEADDR
 
 /*
  * Define base addresses of AHBx and APBx bus peripheral

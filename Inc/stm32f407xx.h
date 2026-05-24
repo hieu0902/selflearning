@@ -228,6 +228,19 @@ typedef struct
     uint32_t RESERVED[2];   /* Reserved, 0x18-0x1C */
     __vo uint32_t CMPCR;     /* SYSCFG Compensation cell control register, Address offset: 0x20      */
 } SYSCFG_RegDef_t;
+
+/**
+  * @brief EXTI
+  */
+typedef struct
+{
+    __vo uint32_t IMR;       /* EXTI Interrupt mask register,         Address offset: 0x00      */
+    __vo uint32_t EMR;       /* EXTI Event mask register,             Address offset: 0x04      */
+    __vo uint32_t RTSR;      /* EXTI Rising trigger selection register, Address offset: 0x08      */
+    __vo uint32_t FTSR;      /* EXTI Falling trigger selection register, Address offset: 0x0C      */
+    __vo uint32_t SWIER;     /* EXTI Software interrupt event register, Address offset: 0x10      */
+    __vo uint32_t PR;        /* EXTI Pending register,                Address offset: 0x14      */
+} EXTI_RegDef_t;
 /** @addtogroup Base_addresses_for_peripherals
   * @{
   */  
@@ -370,8 +383,36 @@ typedef struct
 #define EXTI                ((EXTI_RegDef_t *)EXTI_BASEADDR)
 #define SYSCFG              ((SYSCFG_RegDef_t *)SYSCFG_BASEADDR)
 
+#define SPI1                ((SPI_RegDef_t *)SPI1_BASEADDR)
+#define SPI2                ((SPI_RegDef_t *)SPI2_BASEADDR)
+#define SPI3                ((SPI_RegDef_t *)SPI3_BASEADDR)
+
+#define I2C1                ((I2C_RegDef_t *)I2C1_BASEADDR)
+#define I2C2                ((I2C_RegDef_t *)I2C2_BASEADDR)
+#define I2C3                ((I2C_RegDef_t *)I2C3_BASEADDR)
+
+#define USART1              ((USART_RegDef_t *)USART1_BASEADDR)
+#define USART2              ((USART_RegDef_t *)USART2_BASEADDR)
+#define USART3              ((USART_RegDef_t *)USART3_BASEADDR) 
+#define UART4               ((USART_RegDef_t *)UART4_BASEADDR)
+#define UART5               ((USART_RegDef_t *)UART5_BASEADDR)
+#define USART6              ((USART_RegDef_t *)USART6_BASEADDR)
 
 /*
+ * Clock Enable Macros for GPIOx peripherals
+*/
+#define GPIOA_PCLK_EN()    (RCC->AHB1ENR |= (1 << 0))
+#define GPIOB_PCLK_EN()    (RCC->AHB1ENR |= (1 << 1))
+#define GPIOC_PCLK_EN()    (RCC->AHB1ENR |= (1 << 2))
+#define GPIOD_PCLK_EN()    (RCC->AHB1ENR |= (1 << 3))
+#define GPIOE_PCLK_EN()    (RCC->AHB1ENR |= (1 << 4))
+#define GPIOF_PCLK_EN()    (RCC->AHB1ENR |= (1 << 5))
+#define GPIOG_PCLK_EN()    (RCC->AHB1ENR |= (1 << 6))
+#define GPIOH_PCLK_EN()    (RCC->AHB1ENR |= (1 << 7))
+#define GPIOI_PCLK_EN()    (RCC->AHB1ENR |= (1 << 8))
+#define GPIOJ_PCLK_EN()    (RCC->AHB1ENR |= (1 << 9))
+#define GPIOK_PCLK_EN()    (RCC->AHB1ENR |= (1 << 10))
+
  * Revision history 
     * 19-May-2026: Initial version
 */

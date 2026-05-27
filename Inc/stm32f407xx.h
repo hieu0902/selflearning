@@ -2,7 +2,7 @@
  * stm32f407xx.h
  *
  *  Created on: 19-May-2026
- *      Author: HieuNDM
+ *      Author: @hieu0902
  */
 #ifndef INC_STM32F407XX_H_
 #define INC_STM32F407XX_H_
@@ -11,12 +11,15 @@
 #include <stdint.h>
 #include <stddef.h>
 #include "stm32f407xx_gpio_driver.h"
+#include "stm32f407xx_spi_driver.h"
+#include "stm32f407xx_i2c_driver.h"
+#include "stm32f407xx_usart_driver.h"
 
 #define __vo volatile
 #define __weak __attribute__((weak))
 
-/** @addtogroup Peripheral_interrupt_number_definition
-  * @{
+/**  
+  * Peripheral_interrupt_number_definition
   */
 typedef enum
 {   
@@ -112,8 +115,8 @@ typedef enum
     RNG_IRQn                    = 80,     /*!< RNG global Interrupt                                              */
     FPU_IRQn                    = 81      /*!< FPU global interrupt                                              */
 } IRQn_Type;
-/** @addtogroup Peripheral_registers_structures
-  * @{
+/**  
+  *  Peripheral_registers_structures
   */
 
 /**
@@ -483,6 +486,84 @@ typedef struct
 /*
  * Macros to reset GPIOx peripherals
 */
+
+/******************************************************************************/
+/*                         Peripheral Registers_Bits_Definition               */
+/******************************************************************************/
+
+/******************************************************************************/
+/*                                                                            */
+/*                                  GPIO                                      */
+/*                                                                            */
+/******************************************************************************/
+
+/********************  Bit definition for GPIO_MODER register  ********************/
+/********************  Bit definition for GPIO_OTYPER register  ********************/
+/********************  Bit definition for GPIO_OSPEEDR register  ********************/
+/********************  Bit definition for GPIO_PUPDR register  ********************/
+/********************  Bit definition for GPIO_IDR register  ********************/
+/********************  Bit definition for GPIO_ODR register  ********************/
+/********************  Bit definition for GPIO_BSRR register  ********************/
+/********************  Bit definition for GPIO_LCKR register  ********************/
+/********************  Bit definition for GPIO_AFRL register  ********************/
+/********************  Bit definition for GPIO_AFRH register  ********************/
+
+/******************************************************************************/
+/*                                                                            */
+/*                                  SPI                                       */
+/*                                                                            */
+/******************************************************************************/
+
+/********************  Bit definition for SPI_CR1 register  ********************/
+/********************  Bit definition for SPI_CR2 register  ********************/
+/********************  Bit definition for SPI_SR register  ********************/
+/********************  Bit definition for SPI_DR register  ********************/
+/********************  Bit definition for SPI_CRCPR register  ********************/
+/********************  Bit definition for SPI_RXCRCR register  ********************/
+/********************  Bit definition for SPI_TXCRCR register  ********************/
+/********************  Bit definition for SPI_I2SCFGR register  ********************/
+/********************  Bit definition for SPI_I2SPR register  ********************/
+
+/******************************************************************************/
+/*                                                                            */
+/*                                  I2C                                       */
+/*                                                                            */
+/******************************************************************************/
+
+/********************  Bit definition for I2C_CR1 register  ********************/
+/********************  Bit definition for I2C_CR2 register  ********************/
+/********************  Bit definition for I2C_OAR1 register  ********************/
+/********************  Bit definition for I2C_OAR2 register  ********************/
+/********************  Bit definition for I2C_DR register  **** ****************/
+/********************  Bit definition for I2C_SR1 register  ********************/
+/********************  Bit definition for I2C_SR2 register  ********************/
+/********************  Bit definition for I2C_CCR register  ********************/
+/********************  Bit definition for I2C_TRISE register  ********************/
+
+/******************************************************************************/
+/*                                                                            */
+/*                                  USART                                     */
+/*                                                                            */
+/******************************************************************************/
+
+/********************  Bit definition for USART_SR register  ********************/
+/********************  Bit definition for USART_DR register  ********************/
+/********************  Bit definition for USART_BRR register  ********************/
+/********************  Bit definition for USART_CR1 register  ********************/
+/********************  Bit definition for USART_CR2 register  ********************/
+/********************  Bit definition for USART_CR3 register  ********************/
+/********************  Bit definition for USART_GTPR register  ********************/
+
+/******************************************************************************/
+/*                         Exported Macros                                    */
+/******************************************************************************/
+
+/******************************* GPIO Instances *******************************/
+/******************************* SPI Instances *******************************/
+/******************************* I2C Instances *******************************/
+/******************************* USART Instances *******************************/
+
+
 
 /*
  * Revision history 

@@ -14,3 +14,5 @@
  * Revision history 
     * 27-May-2025: Initial version
 */
+
+#endif /* STM32F407XX_I2C_DRIVER_H */

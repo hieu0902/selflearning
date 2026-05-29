@@ -498,6 +498,10 @@ typedef struct
 /******************************************************************************/
 
 /********************  Bit definition for GPIO_MODER register  ********************/
+
+#define GPIO_MODER_MODER0_Pos        (0U)
+#define GPIO_MODER_MODER0_Msk        (0x3U << GPIO_MODER_MODER0_Pos) /*!< 0x00000003 */
+#define GPIO_MODER_MODER0            GPIO_MODER_MODER0_Msk           /*!< Port x configuration bits (y = 0..15) */
 /********************  Bit definition for GPIO_OTYPER register  ********************/
 /********************  Bit definition for GPIO_OSPEEDR register  ********************/
 /********************  Bit definition for GPIO_PUPDR register  ********************/

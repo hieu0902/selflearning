@@ -1760,3 +1760,5 @@ typedef struct
  * Revision history 
     * 19-May-2026: Initial version
 */
+
+#endif /* __STM32F407XX_H */

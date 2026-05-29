@@ -14,3 +14,5 @@
  * Revision history 
     * 27-May-2025: Initial version
 */
+
+#endif /* STM32F407XX_USART_DRIVER_H */

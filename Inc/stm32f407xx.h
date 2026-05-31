@@ -500,6 +500,18 @@ typedef struct
 #define GPIOH_REG_RESET()  do{ (RCC->AHB1RSTR |= RCC_AHB1RSTR_GPIOHRST); (RCC->AHB1RSTR &= ~RCC_AHB1RSTR_GPIOHRST); }while(0)
 #define GPIOI_REG_RESET()  do{ (RCC->AHB1RSTR |= RCC_AHB1RSTR_GPIOIRST); (RCC->AHB1RSTR &= ~RCC_AHB1RSTR_GPIOIRST); }while(0)
 
+/*
+ * Return code for GPIO base address
+ */
+#define GPIO_BASEADDR_TO_CODE(x)   ((x == GPIOA) ? 0 :\
+                                    (x == GPIOB) ? 1 :\
+                                    (x == GPIOC) ? 2 :\
+                                    (x == GPIOD) ? 3 :\
+                                    (x == GPIOE) ? 4 :\
+                                    (x == GPIOF) ? 5 :\
+                                    (x == GPIOG) ? 6 :\
+                                    (x == GPIOH) ? 7 :\
+                                    (x == GPIOI) ? 8 :0)
 
 /******************************************************************************/
 /*                         Peripheral Registers_Bits_Definition               */
@@ -2706,11 +2718,40 @@ typedef struct
 /******************************************************************************/
 
 /******************************* GPIO Instances *******************************/
+#define IS_GPIO_ALL_INSTANCE(INSTANCE) (((INSTANCE) == GPIOA) || \
+                                        ((INSTANCE) == GPIOB) || \
+                                        ((INSTANCE) == GPIOC) || \
+                                        ((INSTANCE) == GPIOD) || \
+                                        ((INSTANCE) == GPIOE) || \
+                                        ((INSTANCE) == GPIOF) || \
+                                        ((INSTANCE) == GPIOG) || \
+                                        ((INSTANCE) == GPIOH) || \
+                                        ((INSTANCE) == GPIOI) || \
+                                        ((INSTANCE) == GPIOJ))
+
 /******************************* SPI Instances *******************************/
+#define IS_SPI_ALL_INSTANCE(INSTANCE) (((INSTANCE) == SPI1) || \
+                                       ((INSTANCE) == SPI2) || \
+                                       ((INSTANCE) == SPI3))
+
 /******************************* I2C Instances *******************************/
-/******************************* USART Instances *******************************/
+#define IS_I2C_ALL_INSTANCE(INSTANCE) (((INSTANCE) == I2C1) || \
+                                       ((INSTANCE) == I2C2) || \
+                                       ((INSTANCE) == I2C3))
 
+/******************** USART Instances : Synchronous mode **********************/
+#define IS_USART_INSTANCE(INSTANCE) (((INSTANCE) == USART1) || \
+                                     ((INSTANCE) == USART2) || \
+                                     ((INSTANCE) == USART3) || \
+                                     ((INSTANCE) == USART6))
 
+/******************** UART Instances : Half-Duplex mode **********************/
+#define IS_UART_HALFDUPLEX_INSTANCE(INSTANCE) (((INSTANCE) == USART1) || \
+                                               ((INSTANCE) == USART2) || \
+                                               ((INSTANCE) == USART3) || \
+                                               ((INSTANCE) == UART4)  || \
+                                               ((INSTANCE) == UART5)  || \
+                                               ((INSTANCE) == USART6))
 
 /*
  * Revision history 

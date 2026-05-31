@@ -7,10 +7,12 @@
 #ifndef STM32F407XX_GPIO_DRIVER_H
 #define STM32F407XX_GPIO_DRIVER_H
 
-/*
+#include "stm32f407xx.h"
 
-*/
+
 /*
  * Revision history 
     * 17-Apr-2024: Initial version
 */
+
+#endif /* STM32F407XX_GPIO_DRIVER_H */

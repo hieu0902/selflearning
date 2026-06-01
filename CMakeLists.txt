@@ -42,16 +42,20 @@ set(cpu_PARAMS
 
 # Sources
 set(sources_SRCS
-	${CMAKE_CURRENT_SOURCE_DIR}/Src/main.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/Src/Driver/stm32f407xx_gpio_driver.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/Src/Driver/stm32f407xx_spi_driver.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/Src/Driver/stm32f407xx_i2c_driver.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/Src/Driver/stm32f407xx_usart_driver.c
+	${CMAKE_CURRENT_SOURCE_DIR}/Src/Application/Main/main.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/Src/MCAL/GPIO/stm32f407xx_gpio_driver.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/Src/MCAL/SPI/stm32f407xx_spi_driver.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/Src/MCAL/I2C/stm32f407xx_i2c_driver.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/Src/MCAL/USART/stm32f407xx_usart_driver.c
 )
 
 # Include directories for all compilers
 set(include_DIRS
-	${CMAKE_CURRENT_SOURCE_DIR}/Inc
+	${CMAKE_CURRENT_SOURCE_DIR}/Src/Application/Main
+    ${CMAKE_CURRENT_SOURCE_DIR}/Src/MCAL/GPIO
+    ${CMAKE_CURRENT_SOURCE_DIR}/Src/MCAL/SPI
+    ${CMAKE_CURRENT_SOURCE_DIR}/Src/MCAL/I2C
+    ${CMAKE_CURRENT_SOURCE_DIR}/Src/MCAL/USART
 )
 
 # Include directories for each compiler

@@ -10,10 +10,6 @@
 
 #include <stdint.h>
 #include <stddef.h>
-#include "stm32f407xx_gpio_driver.h"
-#include "stm32f407xx_spi_driver.h"
-#include "stm32f407xx_i2c_driver.h"
-#include "stm32f407xx_usart_driver.h"
 
 #define __vo volatile
 #define __weak __attribute__((weak))
@@ -250,22 +246,22 @@ typedef struct
 /*
  * Define base addresses of Flash and SRAM memories
 */
-#define FLASH_BASEADDR 0x08000000UL
-#define SRAM1_BASEADDR 0x20000000UL
-#define SRAM2_BASEADDR 0x2001C000UL
-#define ROM_BASEADDR   0x1FFF0000UL
+#define FLASH_BASEADDR (0x08000000UL)
+#define SRAM1_BASEADDR (0x20000000UL)
+#define SRAM2_BASEADDR (0x2001C000UL)
+#define ROM_BASEADDR   (0x1FFF0000UL)
 #define SRAM 		       SRAM1_BASEADDR
 
 /*
  * Define base addresses of AHBx and APBx bus peripheral
 */
 
-#define PERIPHERAL_BASEADDR 0x40000000UL
+#define PERIPHERAL_BASEADDR (0x40000000UL)
 #define APB1_BASEADDR       PERIPHERAL_BASEADDR
-#define APB2_BASEADDR       0x40010000UL
-#define AHB1_BASEADDR       0x40020000UL
-#define AHB2_BASEADDR       0x50000000UL
-#define AHB3_BASEADDR       0xA0000000UL
+#define APB2_BASEADDR       (0x40010000UL)
+#define AHB1_BASEADDR       (0x40020000UL)
+#define AHB2_BASEADDR       (0x50000000UL)
+#define AHB3_BASEADDR       (0xA0000000UL)
 
 /*
  * APB1 bus peripherals
@@ -299,11 +295,6 @@ typedef struct
 #define PWR_BASEADDR          (APB1_BASEADDR + 0x7000UL)
 #define DAC_BASEADDR          (APB1_BASEADDR + 0x7400UL)
 
-
-#define FLASH_BASEADDR 0x08000000U
-#define SRAM1_BASEADDR 0x20000000U
-#define SRAM2_BASEADDR 0x2001C000U
-#define ROM_BASEADDR   0x1FFF0000U
 
 /*
  * APB2 bus peripherals
@@ -1867,7 +1858,7 @@ typedef struct
 #define RCC_PLLCFGR_PLLSRC_HSE_Pos         (22U)
 #define RCC_PLLCFGR_PLLSRC_HSE_Msk         (0x1UL << RCC_PLLCFGR_PLLSRC_HSE_Pos) /*!< 0x00400000 */
 #define RCC_PLLCFGR_PLLSRC_HSE             RCC_PLLCFGR_PLLSRC_HSE_Msk
-#define RCC_PLLCFGR_PLLSRC_HSI             0x00000000U
+#define RCC_PLLCFGR_PLLSRC_HSI             (0x00000000U)
 
 #define RCC_PLLCFGR_PLLQ_Pos               (24U)
 #define RCC_PLLCFGR_PLLQ_Msk               (0xFUL << RCC_PLLCFGR_PLLQ_Pos)      /*!< 0x0F000000 */
@@ -1886,9 +1877,9 @@ typedef struct
 #define RCC_CFGR_SW_0                      (0x1UL << RCC_CFGR_SW_Pos)           /*!< 0x00000001 */
 #define RCC_CFGR_SW_1                      (0x2UL << RCC_CFGR_SW_Pos)           /*!< 0x00000002 */
 
-#define RCC_CFGR_SW_HSI                    0x00000000U                         /*!< HSI selected as system clock */
-#define RCC_CFGR_SW_HSE                    0x00000001U                         /*!< HSE selected as system clock */
-#define RCC_CFGR_SW_PLL                    0x00000002U                         /*!< PLL selected as system clock */
+#define RCC_CFGR_SW_HSI                    (0x00000000U)                         /*!< HSI selected as system clock */
+#define RCC_CFGR_SW_HSE                    (0x00000001U)                         /*!< HSE selected as system clock */
+#define RCC_CFGR_SW_PLL                    (0x00000002U)                         /*!< PLL selected as system clock */
 
 /*!< SWS configuration */
 #define RCC_CFGR_SWS_Pos                   (2U)
@@ -1897,9 +1888,9 @@ typedef struct
 #define RCC_CFGR_SWS_0                     (0x1UL << RCC_CFGR_SWS_Pos)          /*!< 0x00000004 */
 #define RCC_CFGR_SWS_1                     (0x2UL << RCC_CFGR_SWS_Pos)          /*!< 0x00000008 */
 
-#define RCC_CFGR_SWS_HSI                   0x00000000U                         /*!< HSI oscillator used as system clock        */
-#define RCC_CFGR_SWS_HSE                   0x00000004U                         /*!< HSE oscillator used as system clock        */
-#define RCC_CFGR_SWS_PLL                   0x00000008U                         /*!< PLL used as system clock                   */
+#define RCC_CFGR_SWS_HSI                   (0x00000000U)                         /*!< HSI oscillator used as system clock        */
+#define RCC_CFGR_SWS_HSE                   (0x00000004U)                         /*!< HSE oscillator used as system clock        */
+#define RCC_CFGR_SWS_PLL                   (0x00000008U)                         /*!< PLL used as system clock                   */
 
 /*!< HPRE configuration */
 #define RCC_CFGR_HPRE_Pos                  (4U)
@@ -1910,15 +1901,15 @@ typedef struct
 #define RCC_CFGR_HPRE_2                    (0x4UL << RCC_CFGR_HPRE_Pos)         /*!< 0x00000040 */
 #define RCC_CFGR_HPRE_3                    (0x8UL << RCC_CFGR_HPRE_Pos)         /*!< 0x00000080 */
 
-#define RCC_CFGR_HPRE_DIV1                 0x00000000U                         /*!< SYSCLK not divided    */
-#define RCC_CFGR_HPRE_DIV2                 0x00000080U                         /*!< SYSCLK divided by 2   */
-#define RCC_CFGR_HPRE_DIV4                 0x00000090U                         /*!< SYSCLK divided by 4   */
-#define RCC_CFGR_HPRE_DIV8                 0x000000A0U                         /*!< SYSCLK divided by 8   */
-#define RCC_CFGR_HPRE_DIV16                0x000000B0U                         /*!< SYSCLK divided by 16  */
-#define RCC_CFGR_HPRE_DIV64                0x000000C0U                         /*!< SYSCLK divided by 64  */
-#define RCC_CFGR_HPRE_DIV128               0x000000D0U                         /*!< SYSCLK divided by 128 */
-#define RCC_CFGR_HPRE_DIV256               0x000000E0U                         /*!< SYSCLK divided by 256 */
-#define RCC_CFGR_HPRE_DIV512               0x000000F0U                         /*!< SYSCLK divided by 512 */
+#define RCC_CFGR_HPRE_DIV1                 (0x00000000U)                         /*!< SYSCLK not divided    */
+#define RCC_CFGR_HPRE_DIV2                 (0x00000080U)                         /*!< SYSCLK divided by 2   */
+#define RCC_CFGR_HPRE_DIV4                 (0x00000090U)                         /*!< SYSCLK divided by 4   */
+#define RCC_CFGR_HPRE_DIV8                 (0x000000A0U)                         /*!< SYSCLK divided by 8   */
+#define RCC_CFGR_HPRE_DIV16                (0x000000B0U)                         /*!< SYSCLK divided by 16  */
+#define RCC_CFGR_HPRE_DIV64                (0x000000C0U)                         /*!< SYSCLK divided by 64  */
+#define RCC_CFGR_HPRE_DIV128               (0x000000D0U)                         /*!< SYSCLK divided by 128 */
+#define RCC_CFGR_HPRE_DIV256               (0x000000E0U)                         /*!< SYSCLK divided by 256 */
+#define RCC_CFGR_HPRE_DIV512               (0x000000F0U)                        /*!< SYSCLK divided by 512 */
 
 /*!< PPRE1 configuration */
 #define RCC_CFGR_PPRE1_Pos                 (10U)
@@ -1928,11 +1919,11 @@ typedef struct
 #define RCC_CFGR_PPRE1_1                   (0x2UL << RCC_CFGR_PPRE1_Pos)        /*!< 0x00000800 */
 #define RCC_CFGR_PPRE1_2                   (0x4UL << RCC_CFGR_PPRE1_Pos)        /*!< 0x00001000 */
 
-#define RCC_CFGR_PPRE1_DIV1                0x00000000U                         /*!< HCLK not divided   */
-#define RCC_CFGR_PPRE1_DIV2                0x00001000U                         /*!< HCLK divided by 2  */
-#define RCC_CFGR_PPRE1_DIV4                0x00001400U                         /*!< HCLK divided by 4  */
-#define RCC_CFGR_PPRE1_DIV8                0x00001800U                         /*!< HCLK divided by 8  */
-#define RCC_CFGR_PPRE1_DIV16               0x00001C00U                         /*!< HCLK divided by 16 */
+#define RCC_CFGR_PPRE1_DIV1                (0x00000000U)                         /*!< HCLK not divided   */
+#define RCC_CFGR_PPRE1_DIV2                (0x00001000U)                         /*!< HCLK divided by 2  */
+#define RCC_CFGR_PPRE1_DIV4                (0x00001400U)                         /*!< HCLK divided by 4  */
+#define RCC_CFGR_PPRE1_DIV8                (0x00001800U)                         /*!< HCLK divided by 8  */
+#define RCC_CFGR_PPRE1_DIV16               (0x00001C00U)                         /*!< HCLK divided by 16 */
 
 /*!< PPRE2 configuration */
 #define RCC_CFGR_PPRE2_Pos                 (13U)
@@ -1942,11 +1933,11 @@ typedef struct
 #define RCC_CFGR_PPRE2_1                   (0x2UL << RCC_CFGR_PPRE2_Pos)        /*!< 0x00004000 */
 #define RCC_CFGR_PPRE2_2                   (0x4UL << RCC_CFGR_PPRE2_Pos)        /*!< 0x00008000 */
 
-#define RCC_CFGR_PPRE2_DIV1                0x00000000U                         /*!< HCLK not divided   */
-#define RCC_CFGR_PPRE2_DIV2                0x00008000U                         /*!< HCLK divided by 2  */
-#define RCC_CFGR_PPRE2_DIV4                0x0000A000U                         /*!< HCLK divided by 4  */
-#define RCC_CFGR_PPRE2_DIV8                0x0000C000U                         /*!< HCLK divided by 8  */
-#define RCC_CFGR_PPRE2_DIV16               0x0000E000U                         /*!< HCLK divided by 16 */
+#define RCC_CFGR_PPRE2_DIV1                (0x00000000U)                         /*!< HCLK not divided   */
+#define RCC_CFGR_PPRE2_DIV2                (0x00008000U)                         /*!< HCLK divided by 2  */
+#define RCC_CFGR_PPRE2_DIV4                (0x0000A000U)                         /*!< HCLK divided by 4  */
+#define RCC_CFGR_PPRE2_DIV8                (0x0000C000U)                         /*!< HCLK divided by 8  */
+#define RCC_CFGR_PPRE2_DIV16               (0x0000E000U)                         /*!< HCLK divided by 16 */
 
 /*!< RTCPRE configuration */
 #define RCC_CFGR_RTCPRE_Pos                (16U)

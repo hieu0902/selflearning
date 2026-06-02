@@ -11,8 +11,17 @@
 #include <stdint.h>
 #include <stddef.h>
 
-#define __vo volatile
-#define __weak __attribute__((weak))
+#ifndef __vo
+  #define __vo volatile
+#endif
+
+#ifndef __weak
+  #define __weak __attribute__((weak))
+#endif
+
+#ifndef __packed
+  #define __packed __attribute__((packed))
+#endif
 
 /**  
   * Peripheral_interrupt_number_definition

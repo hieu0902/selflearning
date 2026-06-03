@@ -10,6 +10,9 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#include <time.h>
+#include "stm32_assert_template.h"
+
 
 #ifndef __vo
   #define __vo volatile
@@ -22,6 +25,7 @@
 #ifndef __packed
   #define __packed __attribute__((packed))
 #endif
+
 
 /**  
   * Peripheral_interrupt_number_definition
@@ -120,6 +124,13 @@ typedef enum
     RNG_IRQn                    = 80,     /*!< RNG global Interrupt                                              */
     FPU_IRQn                    = 81      /*!< FPU global interrupt                                              */
 } IRQn_Type;
+
+typedef enum 
+{
+  CLOCK_DISABLE = 0,
+  CLOCK_ENABLE
+} Peripheral_ClockState_t;
+
 /**  
   *  Peripheral_registers_structures
   */
@@ -398,17 +409,16 @@ typedef struct
 /*
  * Clock Enable Macros for GPIOx peripherals
 */
-#define GPIOA_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1EN_GPIOAEN)
-#define GPIOB_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1EN_GPIOBEN)
-#define GPIOC_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1EN_GPIOCEN)
-#define GPIOD_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1EN_GPIODEN)
-#define GPIOE_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1EN_GPIOEEN)
-#define GPIOF_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1EN_GPIOFEN)
-#define GPIOG_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1EN_GPIOGEN)
-#define GPIOH_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1EN_GPIOHEN)
-#define GPIOI_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1EN_GPIOIEN)
-#define GPIOJ_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1EN_GPIOJEN)
-#define GPIOK_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1EN_GPIOKEN)
+#define GPIOA_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN)
+#define GPIOB_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN)
+#define GPIOC_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN)
+#define GPIOD_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1ENR_GPIODEN)
+#define GPIOE_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1ENR_GPIOEEN)
+#define GPIOF_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1ENR_GPIOFEN)
+#define GPIOG_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1ENR_GPIOGEN)
+#define GPIOH_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1ENR_GPIOHEN)
+#define GPIOI_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1ENR_GPIOIEN)
+
 
 /*
  * Clock Enable Macros for I2Cx peripherals
@@ -447,15 +457,15 @@ typedef struct
 /*
  * Clock Disable Macros for GPIOx peripherals
 */
-#define GPIOA_PCLK_DI()    (RCC->AHB1ENR &= ~(RCC_AHB1EN_GPIOAEN))
-#define GPIOB_PCLK_DI()    (RCC->AHB1ENR &= ~(RCC_AHB1EN_GPIOBEN))
-#define GPIOC_PCLK_DI()    (RCC->AHB1ENR &= ~(RCC_AHB1EN_GPIOCEN))
-#define GPIOD_PCLK_DI()    (RCC->AHB1ENR &= ~(RCC_AHB1EN_GPIODEN))
-#define GPIOE_PCLK_DI()    (RCC->AHB1ENR &= ~(RCC_AHB1EN_GPIOEEN))
-#define GPIOF_PCLK_DI()    (RCC->AHB1ENR &= ~(RCC_AHB1EN_GPIOFEN))
-#define GPIOG_PCLK_DI()    (RCC->AHB1ENR &= ~(RCC_AHB1EN_GPIOGEN))
-#define GPIOH_PCLK_DI()    (RCC->AHB1ENR &= ~(RCC_AHB1EN_GPIOHEN))
-#define GPIOI_PCLK_DI()    (RCC->AHB1ENR &= ~(RCC_AHB1EN_GPIOIEN))
+#define GPIOA_PCLK_DI()    (RCC->AHB1ENR &= ~(RCC_AHB1ENR_GPIOAEN))
+#define GPIOB_PCLK_DI()    (RCC->AHB1ENR &= ~(RCC_AHB1ENR_GPIOBEN))
+#define GPIOC_PCLK_DI()    (RCC->AHB1ENR &= ~(RCC_AHB1ENR_GPIOCEN))
+#define GPIOD_PCLK_DI()    (RCC->AHB1ENR &= ~(RCC_AHB1ENR_GPIODEN))
+#define GPIOE_PCLK_DI()    (RCC->AHB1ENR &= ~(RCC_AHB1ENR_GPIOEEN))
+#define GPIOF_PCLK_DI()    (RCC->AHB1ENR &= ~(RCC_AHB1ENR_GPIOFEN))
+#define GPIOG_PCLK_DI()    (RCC->AHB1ENR &= ~(RCC_AHB1ENR_GPIOGEN))
+#define GPIOH_PCLK_DI()    (RCC->AHB1ENR &= ~(RCC_AHB1ENR_GPIOHEN))
+#define GPIOI_PCLK_DI()    (RCC->AHB1ENR &= ~(RCC_AHB1ENR_GPIOIEN))
 
 /*
  * Clock Disable Macros for I2Cx peripherals
@@ -2726,8 +2736,7 @@ typedef struct
                                         ((INSTANCE) == GPIOF) || \
                                         ((INSTANCE) == GPIOG) || \
                                         ((INSTANCE) == GPIOH) || \
-                                        ((INSTANCE) == GPIOI) || \
-                                        ((INSTANCE) == GPIOJ))
+                                        ((INSTANCE) == GPIOI))
 
 /******************************* SPI Instances *******************************/
 #define IS_SPI_ALL_INSTANCE(INSTANCE) (((INSTANCE) == SPI1) || \

@@ -136,10 +136,11 @@ typedef struct
  *		 For more information about the APIs check the function definitions
  ******************************************************************************************/
 
+ 
 /*
  * Peripheral Clock setup
  */
-void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, uint8_t EnorDi);
+void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, Peripheral_ClockState_t EnorDi);
 
 /*
  * Init and De-init
@@ -162,10 +163,9 @@ void GPIO_IRQInterruptConfig(uint8_t IRQNumber, uint8_t EnorDi);
 void GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint32_t IRQPriority);
 void GPIO_IRQHandling(uint8_t PinNumber);
 
-
+#endif /* STM32F407XX_GPIO_DRIVER_H */
 /*
  * Revision history 
     * 17-Apr-2024: Initial version
 */
 
-#endif /* STM32F407XX_GPIO_DRIVER_H */

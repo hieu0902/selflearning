@@ -11,8 +11,11 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <time.h>
-#include "stm32_assert_template.h"
 
+
+#define USE_FULL_ASSERT
+
+#include "stm32_assert_template.h"
 
 #ifndef __vo
   #define __vo volatile
@@ -2761,6 +2764,9 @@ typedef struct
                                                ((INSTANCE) == UART4)  || \
                                                ((INSTANCE) == UART5)  || \
                                                ((INSTANCE) == USART6))
+
+
+
 
 /*
  * Revision history 

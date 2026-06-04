@@ -81,14 +81,35 @@ uint16_t GPIO_ReadFromInputPort(GPIO_RegDef_t *pGPIOx)
 
 void GPIO_WriteToOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber, GPIO_PinState_t Value)
 {
+    /* Check user input */
+    assert_param(IS_GPIO_ALL_INSTANCE(pGPIOx));
+    assert_param(IS_GPIO_PIN(PinNumber));
+    assert_param(IS_GPIO_PIN_ACTION(Value));
 
+    pGPIOx->ODR = (PinNumber << Value);
 }
 
 void GPIO_WriteToOutputPort(GPIO_RegDef_t *pGPIOx, uint16_t Value)
 {
+    assert_param(IS_GPIO_ALL_INSTANCE(pGPIOx));
+    assert_param(IS_GPIO_PIN_ACTION(Value));
 
+    pGPIOx->ODR = Value;
 }
 
+void GPIO_TogglePin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber)
+{
+    /* Check user input */
+    assert_param(IS_GPIO_ALL_INSTANCE(pGPIOx));
+    assert_param(IS_GPIO_PIN(PinNumber));
+
+    pGPIOx->ODR ^= PinNumber;
+}
+
+void GPIO_LockPin()
+{
+
+}
 /*
  * IRQ Configuration and ISR handling
  */

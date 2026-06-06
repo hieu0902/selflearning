@@ -43,19 +43,22 @@ set(cpu_PARAMS
 # Sources
 set(sources_SRCS
 	${CMAKE_CURRENT_SOURCE_DIR}/Src/Application/Main/main.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/Src/MCAL/GPIO/stm32f407xx_gpio_driver.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/Src/MCAL/SPI/stm32f407xx_spi_driver.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/Src/MCAL/I2C/stm32f407xx_i2c_driver.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/Src/MCAL/USART/stm32f407xx_usart_driver.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/Src/Drivers/GPIO/stm32f407xx_gpio_driver.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/Src/Drivers/SPI/stm32f407xx_spi_driver.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/Src/Drivers/I2C/stm32f407xx_i2c_driver.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/Src/Drivers/USART/stm32f407xx_usart_driver.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/Src/Application/Config/Assert/stm32_assert_template.c
 )
 
 # Include directories for all compilers
 set(include_DIRS
 	${CMAKE_CURRENT_SOURCE_DIR}/Src/Application/Main
-    ${CMAKE_CURRENT_SOURCE_DIR}/Src/MCAL/GPIO
-    ${CMAKE_CURRENT_SOURCE_DIR}/Src/MCAL/SPI
-    ${CMAKE_CURRENT_SOURCE_DIR}/Src/MCAL/I2C
-    ${CMAKE_CURRENT_SOURCE_DIR}/Src/MCAL/USART
+    ${CMAKE_CURRENT_SOURCE_DIR}/Src/Application/Config/Assert
+    ${CMAKE_CURRENT_SOURCE_DIR}/Src/Drivers
+    ${CMAKE_CURRENT_SOURCE_DIR}/Src/Drivers/GPIO
+    ${CMAKE_CURRENT_SOURCE_DIR}/Src/Drivers/SPI
+    ${CMAKE_CURRENT_SOURCE_DIR}/Src/Drivers/I2C
+    ${CMAKE_CURRENT_SOURCE_DIR}/Src/Drivers/USART
 )
 
 # Include directories for each compiler
@@ -94,7 +97,8 @@ include("cmake/vscode_generated.cmake")
 link_directories(${CMAKE_PROJECT_NAME} ${link_DIRS})
 
 # Create an executable object type
-add_executable(${CMAKE_PROJECT_NAME})
+add_executable(${CMAKE_PROJECT_NAME}
+)
 
 # Add sources to executable
 target_sources(${CMAKE_PROJECT_NAME} PUBLIC ${sources_SRCS}

@@ -11,11 +11,11 @@
 /*
  * Peripheral Clock setup
  */
-void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, Peripheral_ClockState_t EnorDi)
+void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, Peripheral_ClockState_t ClockState)
 {
     /* Check user input */
     assert_param(IS_GPIO_ALL_INSTANCE(pGPIOx));
-    if ( EnorDi )
+    if ( ClockState == ENABLE )
     {
         if (pGPIOx == GPIOA) GPIOA_PCLK_EN();
         else if (pGPIOx == GPIOB) GPIOB_PCLK_EN();
@@ -46,20 +46,23 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
 {
 
 }
-void GPIO_DeInit(GPIO_RegDef_t *pGPIOx);
+void GPIO_DeInit(GPIO_RegDef_t *pGPIOx)
+{
+    
+}
 
 /*
  * Data read and write
  */
 
-GPIO_PinState_t GPIO_ReadFromInputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber)
+GPIO_PinState_t GPIO_ReadFromInputPin(GPIO_RegDef_t *pGPIOx, uint16_t GPIO_Pin)
 {
     GPIO_PinState_t retval;
     /* Check user input */
     assert_param(IS_GPIO_ALL_INSTANCE(pGPIOx));
-    assert_param(IS_GPIO_PIN(PinNumber));
+    assert_param(IS_GPIO_PIN(GPIO_Pin));
 
-    if ((pGPIOx->IDR & (uint32_t)PinNumber) != ((uint32_t)GPIO_PIN_RESET))
+    if ((pGPIOx->IDR & (uint32_t)GPIO_Pin) != ((uint32_t)GPIO_PIN_RESET))
     {
         retval = GPIO_PIN_SET;
     } else {
@@ -79,16 +82,41 @@ uint16_t GPIO_ReadFromInputPort(GPIO_RegDef_t *pGPIOx)
     return retval;
 }
 
-void GPIO_WriteToOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber, GPIO_PinState_t Value)
+void GPIO_WriteToOutputPin(GPIO_RegDef_t *pGPIOx, uint16_t GPIO_Pin, GPIO_PinState_t PinState)
+{
+    /* Check user input */
+    assert_param(IS_GPIO_ALL_INSTANCE(pGPIOx));
+    assert_param(IS_GPIO_PIN(GPIO_Pin));
+    assert_param(IS_GPIO_PIN_ACTION(PinState));
+
+    if (PinState == GPIO_PIN_SET)
+        pGPIOx->BSRR |= GPIO_Pin;
+    else {
+        pGPIOx->BSRR |= ((uint32_t)GPIO_Pin << 16U);
+    }
+}
+
+void GPIO_WriteToOutputPort(GPIO_RegDef_t *pGPIOx, uint16_t PortState)
+{
+    assert_param(IS_GPIO_ALL_INSTANCE(pGPIOx));
+    assert_param(IS_GPIO_PIN_ACTION(PortState));
+
+    pGPIOx->ODR = PortState;
+}
+
+void GPIO_TogglePin(GPIO_RegDef_t *pGPIOx, uint16_t GPIO_Pin)
+{
+    /* Check user input */
+    assert_param(IS_GPIO_ALL_INSTANCE(pGPIOx));
+    assert_param(IS_GPIO_PIN(GPIO_Pin));
+
+    pGPIOx->ODR ^= GPIO_Pin;
+}
+
+void GPIO_LockPin()
 {
 
 }
-
-void GPIO_WriteToOutputPort(GPIO_RegDef_t *pGPIOx, uint16_t Value)
-{
-
-}
-
 /*
  * IRQ Configuration and ISR handling
  */

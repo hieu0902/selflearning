@@ -115,7 +115,7 @@ typedef struct
  */
 
 #define IS_GPIO_PIN_ACTION(ACTION) (((ACTION) == (GPIO_PIN_SET)) || ((ACTION) == (GPIO_PIN_RESET)))
-#define IS_GPIO_PIN(PIN) ((((uint32_t)PIN) & GPIO_PIN_MASK != 0x00U) && ((((uint32_t)PIN) & ~GPIO_PIN_MASK) == 0x00U))
+#define IS_GPIO_PIN(PIN) (((((uint32_t)PIN) & GPIO_PIN_MASK) != 0x00U) && ((((uint32_t)PIN) & ~GPIO_PIN_MASK) == 0x00U))
 #define IS_GPIO_MODE(MODE) ((MODE == GPIO_MODE_INPUT)   || \
                             (MODE == GPIO_MODE_OUTPUT)  || \
                             (MODE == GPIO_MODE_ALTFN)   || \

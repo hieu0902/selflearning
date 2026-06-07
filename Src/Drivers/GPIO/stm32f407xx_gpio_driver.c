@@ -48,7 +48,7 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
 }
 void GPIO_DeInit(GPIO_RegDef_t *pGPIOx)
 {
-    
+
 }
 
 /*
@@ -120,9 +120,18 @@ void GPIO_LockPin()
 /*
  * IRQ Configuration and ISR handling
  */
-void GPIO_IRQInterruptConfig(uint8_t IRQNumber, uint8_t EnorDi);
-void GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint32_t IRQPriority);
-void GPIO_IRQHandling(uint8_t PinNumber);
+void GPIO_IRQInterruptConfig(uint8_t IRQNumber, uint8_t EnorDi)
+{
+
+}
+void GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint32_t IRQPriority)
+{
+
+}
+void GPIO_IRQHandling(uint8_t PinNumber)
+{
+    
+}
 /*
  * Revision history 
     * 27-May-2025: Initial version

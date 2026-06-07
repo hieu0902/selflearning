@@ -15,7 +15,7 @@ void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, Peripheral_ClockState_t ClockS
 {
     /* Check user input */
     assert_param(IS_GPIO_ALL_INSTANCE(pGPIOx));
-    if ( ClockState == ENABLE )
+    if ( ClockState == CLOCK_ENABLE )
     {
         if (pGPIOx == GPIOA) GPIOA_PCLK_EN();
         else if (pGPIOx == GPIOB) GPIOB_PCLK_EN();
@@ -106,16 +106,32 @@ void GPIO_WriteToOutputPort(GPIO_RegDef_t *pGPIOx, uint16_t PortState)
 
 void GPIO_TogglePin(GPIO_RegDef_t *pGPIOx, uint16_t GPIO_Pin)
 {
+    uint32_t odr;
     /* Check user input */
     assert_param(IS_GPIO_ALL_INSTANCE(pGPIOx));
     assert_param(IS_GPIO_PIN(GPIO_Pin));
-
-    pGPIOx->ODR ^= GPIO_Pin;
+    
+    odr = pGPIOx->ODR;
+    /* Set selected pins that were at low level, and reset ones that were high */
+    pGPIOx->BSRR = ((odr & GPIO_Pin) << GPIO_NUMBER) | (~odr & GPIO_Pin);
 }
 
-void GPIO_LockPin()
+HAL_StatusTypeDef_t GPIO_LockPin(GPIO_RegDef_t *pGPIOx, uint16_t GPIO_Pin)
 {
+    assert_param(IS_GPIO_ALL_INSTANCE(pGPIOx));
+    assert_param(IS_GPIO_PIN(GPIO_Pin));
 
+    HAL_StatusTypeDef_t retval;
+    uint16_t tmp = GPIO_LCKR_LCKK | GPIO_Pin;
+    pGPIOx->LCKR |= tmp;
+    pGPIOx->LCKR |= GPIO_Pin;
+    pGPIOx->LCKR |= tmp;
+    if ( pGPIOx->LCKR & GPIO_LCKR_LCKK ){
+        retval = HAL_OK;
+    } else {
+        retval = HAL_ERROR;
+    }
+    return retval;
 }
 /*
  * IRQ Configuration and ISR handling

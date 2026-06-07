@@ -15,7 +15,7 @@ void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, Peripheral_ClockState_t ClockS
 {
     /* Check user input */
     assert_param(IS_GPIO_ALL_INSTANCE(pGPIOx));
-    if ( ClockState == ENABLE )
+    if ( ClockState == CLOCK_ENABLE )
     {
         if (pGPIOx == GPIOA) GPIOA_PCLK_EN();
         else if (pGPIOx == GPIOB) GPIOB_PCLK_EN();
@@ -113,7 +113,7 @@ void GPIO_TogglePin(GPIO_RegDef_t *pGPIOx, uint16_t GPIO_Pin)
     
     odr = pGPIOx->ODR;
     /* Set selected pins that were at low level, and reset ones that were high */
-    GPIOx->BSRR = ((odr & GPIO_Pin) << GPIO_NUMBER) | (~odr & GPIO_Pin);
+    pGPIOx->BSRR = ((odr & GPIO_Pin) << GPIO_NUMBER) | (~odr & GPIO_Pin);
 }
 
 HAL_StatusTypeDef_t GPIO_LockPin(GPIO_RegDef_t *pGPIOx, uint16_t GPIO_Pin)

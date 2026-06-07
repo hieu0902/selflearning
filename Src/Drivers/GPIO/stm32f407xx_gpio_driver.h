@@ -153,10 +153,10 @@ void GPIO_DeInit(GPIO_RegDef_t *pGPIOx);
 /*
  * Data read and write
  */
-GPIO_PinState_t GPIO_ReadFromInputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber);
+GPIO_PinState_t GPIO_ReadFromInputPin(GPIO_RegDef_t *pGPIOx, uint16_t GPIO_Pin);
 uint16_t GPIO_ReadFromInputPort(GPIO_RegDef_t *pGPIOx);
-void GPIO_WriteToOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber, GPIO_PinState_t Value);
-void GPIO_WriteToOutputPort(GPIO_RegDef_t *pGPIOx, uint16_t Value);
+void GPIO_WriteToOutputPin(GPIO_RegDef_t *pGPIOx, uint16_t GPIO_Pin, GPIO_PinState_t PinState);
+void GPIO_WriteToOutputPort(GPIO_RegDef_t *pGPIOx, uint16_t PortState);
 void GPIO_TogglePin(GPIO_RegDef_t *pGPIOx, uint16_t GPIO_Pin);
 HAL_StatusTypeDef_t GPIO_LockPin(GPIO_RegDef_t *pGPIOx, uint16_t GPIO_Pin);
 /*

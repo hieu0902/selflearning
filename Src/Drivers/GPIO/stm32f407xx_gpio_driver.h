@@ -148,8 +148,8 @@ void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, Peripheral_ClockState_t EnorDi
  * Init and De-init
  */
 void GPIO_Init(GPIO_Handle_t *pGPIOHandle);
-void GPIO_DeInit(GPIO_RegDef_t *pGPIOx);
-
+void GPIO_DeInit(GPIO_RegDef_t *pGPIOx, uint16_t GPIO_Pin);
+void GPIO_Port_Deinit(GPIO_RegDef_t *pGPIOx);
 /*
  * Data read and write
  */

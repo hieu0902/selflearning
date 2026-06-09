@@ -46,8 +46,15 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
 {
 
 }
-void GPIO_DeInit(GPIO_RegDef_t *pGPIOx)
+void GPIO_Deinit(GPIO_RegDef_t *pGPIOx, uint16_t GPIO_Pin)
 {
+    assert_param(IS_GPIO_ALL_INSTANCE(pGPIOx));
+    assert_param(IS_GPIO_PIN(GPIO_Pin));
+
+}
+void GPIO_Port_Deinit(GPIO_RegDef_t *pGPIOx)
+{
+    assert_param(IS_GPIO_ALL_INSTANCE(pGPIOx));
     if (pGPIOx == GPIOA) GPIOA_REG_RESET();
     else if (pGPIOx == GPIOB) GPIOB_REG_RESET();
     else if (pGPIOx == GPIOC) GPIOC_REG_RESET();

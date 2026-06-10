@@ -28,13 +28,6 @@ typedef enum
     GPIO_PIN_SET
 } GPIO_PinState_t;
 
-/* GPIO pin handle structure */
-typedef struct
-{
-    GPIO_RegDef_t *pGPIOx;
-    GPIO_PinConfig_t GPIO_PinConfig;
-} GPIO_Handle_t;
-
 /*
  * @GPIO_PIN_NUMBERS
  * GPIO pin numbers
@@ -147,7 +140,7 @@ void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, Peripheral_ClockState_t EnorDi
 /*
  * Init and De-init
  */
-void GPIO_Init(GPIO_Handle_t *pGPIOHandle);
+void GPIO_Init(GPIO_RegDef_t *pGPIOx, GPIO_PinConfig_t *PinConfig);
 void GPIO_DeInit(GPIO_RegDef_t *pGPIOx, uint16_t GPIO_Pin);
 void GPIO_Port_Deinit(GPIO_RegDef_t *pGPIOx);
 /*

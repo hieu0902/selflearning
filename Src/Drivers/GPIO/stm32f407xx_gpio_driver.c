@@ -42,7 +42,7 @@ void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, Peripheral_ClockState_t ClockS
 /*
  * Init and De-init
  */
-void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
+void GPIO_Init(GPIO_RegDef_t *pGPIOx, GPIO_PinConfig_t *PinConfig)
 {
 
 }
@@ -151,17 +151,51 @@ HAL_StatusTypeDef_t GPIO_LockPin(GPIO_RegDef_t *pGPIOx, uint16_t GPIO_Pin)
 /*
  * IRQ Configuration and ISR handling
  */
-void GPIO_IRQInterruptConfig(uint8_t IRQNumber, uint8_t EnorDi)
+void GPIO_IRQInterruptConfig(IRQ_TypeDef_t IRQNumber, HAL_ConfigState_t EnorDi)
+{
+    if ( EnorDi == ENABLE)
+    {
+        if (IRQNumber < 32) {
+            /* ISER0 */
+            NVIC->ISER[0] |= (1U << IRQNumber);
+        } else if (IRQNumber < 64) {
+            /* ISER1 */
+            NVIC->ISER[1] |= (1U << (IRQNumber % 32U));
+        } else if (IRQNumber < 96) {
+            /* ISER2 */
+            NVIC->ISER[2] |= (1U << (IRQNumber % 64U));
+        }
+    } else {
+        if (IRQNumber < 32) {
+            /* ICER0 */
+            NVIC->ICER[0] |= (1U << IRQNumber);
+        } else if (IRQNumber < 64) {
+            /* ICER1 */
+            NVIC->ICER[1] |= (1U << (IRQNumber % 32U));
+        } else if (IRQNumber < 96) {
+            /* ICER2 */
+            NVIC->ICER[2] |= (1U << (IRQNumber % 64U));
+        }
+    }
+}
+void GPIO_IRQPriorityConfig(IRQ_TypeDef_t IRQNumber, uint32_t IRQPriority)
 {
 
 }
-void GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint32_t IRQPriority)
+void GPIO_IRQHandler(uint16_t GPIO_Pin)
 {
-
+    if(EXTI->PR & ( 1 << GPIO_Pin))
+	{
+        /* Clear the EXTI line pending bit */
+		EXTI->PR |= ( 1 << GPIO_Pin);
+        /* Call the callback function to handle the interrupt */
+        GPIO_IRQ_Callback(GPIO_Pin);
+	}
 }
-void GPIO_IRQHandling(uint8_t PinNumber)
+
+__weak GPIO_IRQ_Callback(uint16_t GPIO_Pin)
 {
-    
+    /* This is a weak implementation. The user application may override this function. */
 }
 /*
  * Revision history 

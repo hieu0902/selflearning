@@ -126,14 +126,20 @@ typedef enum
     DCMI_IRQn                   = 78,     /*!< DCMI global interrupt                                             */
     RNG_IRQn                    = 80,     /*!< RNG global Interrupt                                              */
     FPU_IRQn                    = 81      /*!< FPU global interrupt                                              */
-} IRQn_Type;
+} IRQ_TypeDef_t;
 
+/**  
+  *  Configuration state
+  */
 typedef enum 
 {
-  CLOCK_DISABLE = 0,
-  CLOCK_ENABLE
-} Peripheral_ClockState_t;
+  DISABLE = 0,
+  ENABLE
+} HAL_ConfigState_t;
 
+/**  
+  *  Function return status
+  */
 typedef enum 
 {
   HAL_OK       = 0x00U,
@@ -144,7 +150,26 @@ typedef enum
 /**  
   *  Peripheral_registers_structures
   */
+/**
+  * @brief NVIC
+  */  
+typedef struct
+{
+    __vo uint32_t ISER[8U];   // Interrupt Set Enable Register
+    uint32_t RESERVED0[24U];
+    __vo uint32_t ICER[8U];   // Interrupt Clear Enable Register
+    uint32_t RESERVED1[24U];
+    __vo uint32_t ISPR[8U];   // Interrupt Set Pending Register
+    uint32_t RESERVED2[24U];
+    __vo uint32_t ICPR[8U];   // Interrupt Clear Pending Register
+    uint32_t RESERVED3[24U];
+    __vo uint32_t IABR[8U];   // Interrupt Active Bit Register
+    uint32_t RESERVED4[56U];
+    __vo uint8_t  IP[240U];   // Interrupt Priority Register
+    uint32_t RESERVED5[644U];
+    __OM  uint32_t STIR;       // Software Trigger Interrupt Register
 
+} NVIC_RegDef_t;
 /**
   * @brief GPIO
   */  
@@ -282,6 +307,7 @@ typedef struct
 #define ROM_BASEADDR   (0x1FFF0000UL)
 #define SRAM 		       SRAM1_BASEADDR
 
+#define NVIC_BASEADDR  (0xE000E100UL)
 /*
  * Define base addresses of AHBx and APBx bus peripheral
 */
@@ -416,6 +442,7 @@ typedef struct
 #define UART5               ((USART_RegDef_t *)UART5_BASEADDR)
 #define USART6              ((USART_RegDef_t *)USART6_BASEADDR)
 
+#define NVIC                ((NVIC_RegDef_t *)NVIC_BASEADDR)
 /*
  * Clock Enable Macros for GPIOx peripherals
 */

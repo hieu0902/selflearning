@@ -18,7 +18,7 @@ typedef struct
     uint8_t GPIO_PinOSpeed;
     uint8_t GPIO_PinOPType;
     uint8_t GPIO_PinAltFunMode;
-} GPIO_PinConfig_t;
+} GPIO_InitTypeDef_t;
 
 /* Pin state */
 
@@ -135,12 +135,12 @@ typedef enum
 /*
  * Peripheral Clock setup
  */
-void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, Peripheral_ClockState_t EnorDi);
+void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, HAL_ConfigState_t EnorDi);
 
 /*
  * Init and De-init
  */
-void GPIO_Init(GPIO_RegDef_t *pGPIOx, GPIO_PinConfig_t *PinConfig);
+void GPIO_Init(GPIO_RegDef_t *pGPIOx, GPIO_InitTypeDef_t *InitConfig);
 void GPIO_DeInit(GPIO_RegDef_t *pGPIOx, uint16_t GPIO_Pin);
 void GPIO_Port_Deinit(GPIO_RegDef_t *pGPIOx);
 /*
@@ -155,9 +155,10 @@ HAL_StatusTypeDef_t GPIO_LockPin(GPIO_RegDef_t *pGPIOx, uint16_t GPIO_Pin);
 /*
  * IRQ Configuration and ISR handling
  */
-void GPIO_IRQInterruptConfig(uint8_t IRQNumber, uint8_t EnorDi);
-void GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint32_t IRQPriority);
+void GPIO_IRQInterruptConfig(IRQ_TypeDef_t IRQNumber, HAL_ConfigState_t EnorDi);
+void GPIO_IRQPriorityConfig(IRQ_TypeDef_t IRQNumber, uint32_t IRQPriority);
 void GPIO_IRQHandling(uint8_t PinNumber);
+__weak void GPIO_IRQ_Callback(uint16_t GPIO_Pin);
 
 #endif /* STM32F407XX_GPIO_DRIVER_H */
 /*

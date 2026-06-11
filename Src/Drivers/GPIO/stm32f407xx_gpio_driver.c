@@ -11,11 +11,11 @@
 /*
  * Peripheral Clock setup
  */
-void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, Peripheral_ClockState_t ClockState)
+void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, HAL_ConfigState_t ClockState)
 {
     /* Check user input */
     assert_param(IS_GPIO_ALL_INSTANCE(pGPIOx));
-    if ( ClockState == CLOCK_ENABLE )
+    if ( ClockState == ENABLE )
     {
         if (pGPIOx == GPIOA) GPIOA_PCLK_EN();
         else if (pGPIOx == GPIOB) GPIOB_PCLK_EN();
@@ -42,7 +42,7 @@ void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, Peripheral_ClockState_t ClockS
 /*
  * Init and De-init
  */
-void GPIO_Init(GPIO_RegDef_t *pGPIOx, GPIO_PinConfig_t *PinConfig)
+void GPIO_Init(GPIO_RegDef_t *pGPIOx, GPIO_InitTypeDef_t *InitConfig)
 {
 
 }
@@ -180,7 +180,7 @@ void GPIO_IRQInterruptConfig(IRQ_TypeDef_t IRQNumber, HAL_ConfigState_t EnorDi)
 }
 void GPIO_IRQPriorityConfig(IRQ_TypeDef_t IRQNumber, uint32_t IRQPriority)
 {
-
+    
 }
 void GPIO_IRQHandler(uint16_t GPIO_Pin)
 {
@@ -193,7 +193,7 @@ void GPIO_IRQHandler(uint16_t GPIO_Pin)
 	}
 }
 
-__weak GPIO_IRQ_Callback(uint16_t GPIO_Pin)
+__weak void GPIO_IRQ_Callback(uint16_t GPIO_Pin)
 {
     /* This is a weak implementation. The user application may override this function. */
 }

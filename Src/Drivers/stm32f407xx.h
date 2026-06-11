@@ -167,7 +167,7 @@ typedef struct
     uint32_t RESERVED4[56U];
     __vo uint8_t  IP[240U];   // Interrupt Priority Register
     uint32_t RESERVED5[644U];
-    __OM  uint32_t STIR;       // Software Trigger Interrupt Register
+    __vo  uint32_t STIR;       // Software Trigger Interrupt Register
 
 } NVIC_RegDef_t;
 /**

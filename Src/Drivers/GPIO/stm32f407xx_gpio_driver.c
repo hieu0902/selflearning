@@ -180,7 +180,12 @@ void GPIO_IRQInterruptConfig(IRQ_TypeDef_t IRQNumber, HAL_ConfigState_t EnorDi)
 }
 void GPIO_IRQPriorityConfig(IRQ_TypeDef_t IRQNumber, uint32_t IRQPriority)
 {
-    
+    uint8_t iprx = IRQNumber / 4;
+	uint8_t iprx_section  = IRQNumber %4 ;
+
+	uint8_t shift_amount = ( 8 * iprx_section ) + ( 8 - NO_PR_BITS_IMPLEMENTED );
+
+	*( NVIC->IP + iprx ) |=  ( IRQPriority << shift_amount );
 }
 void GPIO_IRQHandler(uint16_t GPIO_Pin)
 {

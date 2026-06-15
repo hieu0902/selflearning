@@ -29,6 +29,7 @@
   #define __packed __attribute__((packed))
 #endif
 
+#define NO_PR_BITS_IMPLEMENTED  4
 
 /**  
   * Peripheral_interrupt_number_definition

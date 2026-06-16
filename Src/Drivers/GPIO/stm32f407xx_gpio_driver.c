@@ -44,7 +44,9 @@ void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, HAL_ConfigState_t ClockState)
  */
 void GPIO_Init(GPIO_RegDef_t *pGPIOx, GPIO_InitTypeDef_t *InitConfig)
 {
-
+    assert_param(IS_GPIO_ALL_INSTANCE(pGPIOx));
+    assert_param(IS_GPIO_PIN(InitConfig->GPIO_PinNumber));
+    assert_param(IS_GPIO_MODE(InitConfig->GPIO_PinMode));
 }
 void GPIO_Deinit(GPIO_RegDef_t *pGPIOx, uint16_t GPIO_Pin)
 {

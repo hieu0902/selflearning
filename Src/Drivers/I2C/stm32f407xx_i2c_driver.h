@@ -36,7 +36,19 @@ typedef struct
     uint8_t         Sr;			/* !< To store repeated start value  > */
 } I2C_Handle_t;
 
-void I2C_PeriClockControl(I2C_RegDef_t *pI2Cx, HAL_ConfigState_t EnorDi);
+void I2C_PeriClockControl(I2C_RegDef_t *pI2Cx, HAL_ConfigState_t EnorDi)
+{
+    if (EnorDi == ENABLE)
+    {
+        if (pI2Cx == I2C1) I2C1_PCLK_EN();
+        else if (pI2Cx == I2C2) I2C2_PCLK_EN();
+        else if (pI2Cx == I2C3) I2C3_PCLK_EN();
+    } else {
+        if (pI2Cx == I2C1) I2C1_PCLK_DI();
+        else if (pI2Cx == I2C2) I2C2_PCLK_DI();
+        else if (pI2Cx == I2C3) I2C3_PCLK_DI();
+    }
+}
 
 void I2C_Init(I2C_Handle_t *pI2CHandle);
 void I2C_DeInit(I2C_RegDef_t *pI2Cx);

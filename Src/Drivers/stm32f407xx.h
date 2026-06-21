@@ -535,6 +535,7 @@ typedef struct
 */
 #define SYSCFG_PCLK_DI()   (RCC->APB2ENR &= ~(RCC_APB2EN_SYSCFGEN))
 
+
 /*
  * Macros to reset GPIOx peripherals
 */

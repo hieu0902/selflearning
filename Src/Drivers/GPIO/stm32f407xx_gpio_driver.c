@@ -44,9 +44,24 @@ void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, HAL_ConfigState_t ClockState)
  */
 void GPIO_Init(GPIO_RegDef_t *pGPIOx, GPIO_InitTypeDef_t *InitConfig)
 {
+    uint32_t temp = 0;
+    uint32_t iocurrent;
+    
+    /* Check user input */
     assert_param(IS_GPIO_ALL_INSTANCE(pGPIOx));
     assert_param(IS_GPIO_PIN(InitConfig->GPIO_PinNumber));
     assert_param(IS_GPIO_MODE(InitConfig->GPIO_PinMode));
+    if(InitConfig->GPIO_PinMode <= GPIO_MODE_ANALOG)
+    {
+        pGPIOx->MODER &= ~(0x3U << (2 * InitConfig->GPIO_PinNumber));
+        pGPIOx->MODER |= (InitConfig->GPIO_PinMode << (2 * InitConfig->GPIO_PinNumber));
+        if(InitConfig->GPIO_PinMode == GPIO_MODE_INPUT)
+        assert_param(IS_GPIO_OP_TYPE(InitConfig->GPIO_PinOPType));
+        assert_param(IS_GPIO_SPEED(InitConfig->GPIO_PinOSpeed));
+        assert_param(IS_GPIO_PUPD(InitConfig->GPIO_PinPuPdControl));
+    } else {
+        /* Interrupt mode */
+    }
 }
 void GPIO_Deinit(GPIO_RegDef_t *pGPIOx, uint16_t GPIO_Pin)
 {
@@ -118,7 +133,7 @@ void GPIO_WriteToOutputPort(GPIO_RegDef_t *pGPIOx, uint16_t PortState)
     assert_param(IS_GPIO_ALL_INSTANCE(pGPIOx));
     assert_param(IS_GPIO_PIN_ACTION(PortState));
 
-    pGPIOx->ODR = PortState;
+    pGPIOx->ODR |= PortState;
 }
 
 void GPIO_TogglePin(GPIO_RegDef_t *pGPIOx, uint16_t GPIO_Pin)

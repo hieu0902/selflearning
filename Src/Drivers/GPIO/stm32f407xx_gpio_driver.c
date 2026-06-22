@@ -44,13 +44,27 @@ void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, HAL_ConfigState_t ClockState)
  */
 void GPIO_Init(GPIO_RegDef_t *pGPIOx, GPIO_InitTypeDef_t *InitConfig)
 {
+    uint32_t position;
     uint32_t temp = 0;
-    uint32_t iocurrent;
-    
+    uint32_t iocurrent = 0x00;
+    uint32_t ioposition = 0x00;
+
     /* Check user input */
     assert_param(IS_GPIO_ALL_INSTANCE(pGPIOx));
     assert_param(IS_GPIO_PIN(InitConfig->GPIO_PinNumber));
     assert_param(IS_GPIO_MODE(InitConfig->GPIO_PinMode));
+
+    for (position = 0; position < GPIO_NUMBER; position++)
+    {
+        ioposition = 0x01 << position;
+        iocurrent = InitConfig->GPIO_PinNumber & ioposition;
+        if (iocurrent == ioposition){
+            
+        }
+
+        
+    }
+    
     if(InitConfig->GPIO_PinMode <= GPIO_MODE_ANALOG)
     {
         pGPIOx->MODER &= ~(0x3U << (2 * InitConfig->GPIO_PinNumber));
@@ -64,10 +78,16 @@ void GPIO_Init(GPIO_RegDef_t *pGPIOx, GPIO_InitTypeDef_t *InitConfig)
     }
 }
 void GPIO_Deinit(GPIO_RegDef_t *pGPIOx, uint16_t GPIO_Pin)
-{
+{   
+    uint32_t position;
+    uint32_t temp = 0;
+    uint32_t iocurrent = 0x00;
+    uint32_t ioposition = 0x00;
+
     assert_param(IS_GPIO_ALL_INSTANCE(pGPIOx));
     assert_param(IS_GPIO_PIN(GPIO_Pin));
 
+    
 }
 void GPIO_Port_Deinit(GPIO_RegDef_t *pGPIOx)
 {

@@ -8,6 +8,8 @@
 #include <stdint.h>
 #include "stm32f407xx_gpio_driver.h"
 
+
+#define GPIO_NUMBER 16U
 /*
  * Peripheral Clock setup
  */
@@ -45,7 +47,7 @@ void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, HAL_ConfigState_t ClockState)
 void GPIO_Init(GPIO_RegDef_t *pGPIOx, GPIO_InitTypeDef_t *InitConfig)
 {
     uint32_t position;
-    uint32_t temp = 0;
+    uint32_t temp = 0x00U;
     uint32_t iocurrent = 0x00;
     uint32_t ioposition = 0x00;
 
@@ -54,39 +56,76 @@ void GPIO_Init(GPIO_RegDef_t *pGPIOx, GPIO_InitTypeDef_t *InitConfig)
     assert_param(IS_GPIO_PIN(InitConfig->GPIO_PinNumber));
     assert_param(IS_GPIO_MODE(InitConfig->GPIO_PinMode));
 
-    for (position = 0; position < GPIO_NUMBER; position++)
+    for (position = 0U; position < GPIO_NUMBER; position++)
     {
         ioposition = 0x01 << position;
         iocurrent = InitConfig->GPIO_PinNumber & ioposition;
         if (iocurrent == ioposition){
+
+            /*--------------------- GPIO Mode Configuration ------------------------*/
+            if (InitConfig->GPIO_PinMode == GPIO_MODE_OUTPUT || \
+                InitConfig->GPIO_PinMode == GPIO_MODE_ALTFN)
+            {
+                /* Set Output Speed for Output and Alternate Function Mode */
+                temp = pGPIOx->OSPEEDR;
+                temp &= ~(GPIO_OSPEEDR_OSPEED0 << (position * 2U));
+                temp |= (InitConfig->GPIO_PinOSpeed << (position * 2U));
+                pGPIOx->OSPEEDR = temp;
+
+                /* Config the IO Output Type*/
+                temp = pGPIOx->OTYPER;
+                temp &= ~(GPIO_OTYPER_OT0 << position);
+                temp |= (InitConfig->GPIO_PinOPType << position);
+                pGPIOx->OTYPER = temp;
+            }
+
+            if (InitConfig->GPIO_PinMode != GPIO_MODE_ANALOG)
+            {
+                IS_GPIO_PUPD(InitConfig->GPIO_PinPuPdControl);
+                /* Config PUPD if not in Analog Mode */
+                temp = pGPIOx->PUPDR;
+                temp &= ~(GPIO_PUPDR_PUPD0 << (position * 2U));
+                temp |= (InitConfig->GPIO_PinPuPdControl << (position * 2U));
+                pGPIOx->PUPDR = temp;
+            }
             
+            if (InitConfig->GPIO_PinMode == GPIO_MODE_ALTFN)
+            {
+
+            }
+            /* Config GPIO Mode Input, Output, Analog, Alternate function*/
+            temp = pGPIOx->MODER;
+            temp &= ~(GPIO_MODER_MODER0 << (position * 2U));
+            temp |= (InitConfig->GPIO_PinMode << (position * 2U));
+            pGPIOx->MODER = temp;
+
+            /*--------------------- EXTI Mode Configuration ------------------------*/
+
+
         }
 
         
-    }
-    
-    if(InitConfig->GPIO_PinMode <= GPIO_MODE_ANALOG)
-    {
-        pGPIOx->MODER &= ~(0x3U << (2 * InitConfig->GPIO_PinNumber));
-        pGPIOx->MODER |= (InitConfig->GPIO_PinMode << (2 * InitConfig->GPIO_PinNumber));
-        if(InitConfig->GPIO_PinMode == GPIO_MODE_INPUT)
-        assert_param(IS_GPIO_OP_TYPE(InitConfig->GPIO_PinOPType));
-        assert_param(IS_GPIO_SPEED(InitConfig->GPIO_PinOSpeed));
-        assert_param(IS_GPIO_PUPD(InitConfig->GPIO_PinPuPdControl));
-    } else {
-        /* Interrupt mode */
     }
 }
 void GPIO_Deinit(GPIO_RegDef_t *pGPIOx, uint16_t GPIO_Pin)
 {   
     uint32_t position;
-    uint32_t temp = 0;
-    uint32_t iocurrent = 0x00;
-    uint32_t ioposition = 0x00;
+    uint32_t temp = 0x00U;
+    uint32_t iocurrent = 0x00U;
+    uint32_t ioposition = 0x00U;
 
     assert_param(IS_GPIO_ALL_INSTANCE(pGPIOx));
     assert_param(IS_GPIO_PIN(GPIO_Pin));
 
+    for (position = 0U; position < GPIO_NUMBER; position++)
+    {
+        ioposition = 0x01U << position;
+        iocurrent = GPIO_Pin & ioposition;
+        if (iocurrent == ioposition)
+        {
+            
+        }
+    }
     
 }
 void GPIO_Port_Deinit(GPIO_RegDef_t *pGPIOx)

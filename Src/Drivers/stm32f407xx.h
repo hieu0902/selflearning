@@ -656,9 +656,9 @@ typedef struct
 #define GPIO_MODER_MODER15_1             (0x2UL << GPIO_MODER_MODER15_Pos)      /*!< 0x80000000 */
 
 /********************  Bit definition for GPIO_OTYPER register  ********************/
-#define GPIO_OTYPER_OT0_Pos             (0U)
-#define GPIO_OTYPER_OT0_Msk             (0x1UL << GPIO_OTYPER_OT0_Pos)        /*!< 0x00000001 */
-#define GPIO_OTYPER_OT0                 GPIO_OTYPER_OT0_Msk
+#define GPIO_OTYPER_OT0_Pos              (0U)
+#define GPIO_OTYPER_OT0_Msk              (0x1UL << GPIO_OTYPER_OT0_Pos)        /*!< 0x00000001 */
+#define GPIO_OTYPER_OT0                  GPIO_OTYPER_OT0_Msk
 #define GPIO_OTYPER_OT1_Pos              (1U)
 #define GPIO_OTYPER_OT1_Msk              (0x1UL << GPIO_OTYPER_OT1_Pos)         /*!< 0x00000002 */
 #define GPIO_OTYPER_OT1                  GPIO_OTYPER_OT1_Msk

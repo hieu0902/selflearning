@@ -10,6 +10,8 @@
 
 
 #define GPIO_NUMBER 16U
+
+#define NO_PR_BITS_IMPLEMENTED  4
 /*
  * Peripheral Clock setup
  */
@@ -63,8 +65,8 @@ void GPIO_Init(GPIO_RegDef_t *pGPIOx, GPIO_InitTypeDef_t *InitConfig)
         if (iocurrent == ioposition){
 
             /*--------------------- GPIO Mode Configuration ------------------------*/
-            if (InitConfig->GPIO_PinMode == GPIO_MODE_OUTPUT || \
-                InitConfig->GPIO_PinMode == GPIO_MODE_ALTFN)
+            if ((InitConfig->GPIO_PinMode & MODE_Msk) == MODE_OUTPUT || \
+                (InitConfig->GPIO_PinMode & MODE_Msk) == MODE_ALTFN)
             {
                 /* Set Output Speed for Output and Alternate Function Mode */
                 temp = pGPIOx->OSPEEDR;
@@ -75,33 +77,79 @@ void GPIO_Init(GPIO_RegDef_t *pGPIOx, GPIO_InitTypeDef_t *InitConfig)
                 /* Config the IO Output Type*/
                 temp = pGPIOx->OTYPER;
                 temp &= ~(GPIO_OTYPER_OT0 << position);
-                temp |= (InitConfig->GPIO_PinOPType << position);
+                temp |= (InitConfig->GPIO_PinMode & OTYPE_Msk) << position;
                 pGPIOx->OTYPER = temp;
             }
 
-            if (InitConfig->GPIO_PinMode != GPIO_MODE_ANALOG)
+            if ((InitConfig->GPIO_PinMode & MODE_Msk) != MODE_ANALOG)
             {
                 IS_GPIO_PUPD(InitConfig->GPIO_PinPuPdControl);
                 /* Config PUPD if not in Analog Mode */
                 temp = pGPIOx->PUPDR;
-                temp &= ~(GPIO_PUPDR_PUPD0 << (position * 2U));
+                temp &= ~(GPIO_PUPDR_PUPD0_Msk << (position * 2U));
                 temp |= (InitConfig->GPIO_PinPuPdControl << (position * 2U));
                 pGPIOx->PUPDR = temp;
             }
             
-            if (InitConfig->GPIO_PinMode == GPIO_MODE_ALTFN)
+            if ((InitConfig->GPIO_PinMode & MODE_Msk) == MODE_ALTFN)
             {
-
+                temp = pGPIOx->AFR[position >> 3];
+                temp &= ~(0x0FU << ((position & 0x07U) * 4U));
+                temp |= ((InitConfig->GPIO_PinAltFunMode) << (position & 0x07U) * 4U);
+                pGPIOx->AFR[position >> 3] = temp;
             }
             /* Config GPIO Mode Input, Output, Analog, Alternate function*/
             temp = pGPIOx->MODER;
-            temp &= ~(GPIO_MODER_MODER0 << (position * 2U));
+            temp &= ~(GPIO_MODER_MODER0_Msk << (position * 2U));
             temp |= (InitConfig->GPIO_PinMode << (position * 2U));
             pGPIOx->MODER = temp;
 
             /*--------------------- EXTI Mode Configuration ------------------------*/
+            if ((InitConfig->GPIO_PinMode & EXTI_MODE) != 0x00U)
+            {
+                /* Config the GPIO port selection in SYSCFG_EXTICR */
+                uint32_t portcode = GPIO_BASEADDR_TO_CODE(pGPIOx);
+                uint32_t exticr_index = position / 4U;
+                uint32_t exticr_position = (position % 4U) * 4U;
 
+                SYSCFG_PCLK_EN();
+                temp = SYSCFG->EXTICR[exticr_index];
+                temp &= ~(0x0FU << exticr_position);
+                temp |= (portcode << exticr_position);
+                SYSCFG->EXTICR[exticr_index] = temp;
 
+                /* Config the trigger selection in EXTI */
+                if ((InitConfig->GPIO_PinMode & TRIGGER_Msk) == TRIGGER_RISING)
+                {
+                    EXTI->RTSR |= iocurrent;
+                    EXTI->FTSR &= ~iocurrent;
+                } else if ((InitConfig->GPIO_PinMode & TRIGGER_Msk) == TRIGGER_FALLING)
+                {
+                    EXTI->FTSR |= iocurrent;
+                    EXTI->RTSR &= ~iocurrent;
+                } else if ((InitConfig->GPIO_PinMode & TRIGGER_Msk) == TRIGGER_BOTH)
+                {
+                    EXTI->RTSR |= iocurrent;
+                    EXTI->FTSR |= iocurrent;
+                } 
+                temp = EXTI->IMR;
+                temp &= ~(uint32_t)iocurrent;
+                if((InitConfig->GPIO_PinMode & EXTI_IT) != 0x00U)
+                {
+                    
+                    temp |= iocurrent; 
+                } 
+                EXTI->IMR = temp;
+
+                temp = EXTI->EMR;
+                temp &= ~(uint32_t)iocurrent;
+                if ((InitConfig->GPIO_PinMode & EXTI_EVT) != 0x00U)
+                {
+                    
+                    temp |= iocurrent;
+                }
+                EXTI->EMR = temp;
+            } 
         }
 
         
@@ -123,7 +171,25 @@ void GPIO_Deinit(GPIO_RegDef_t *pGPIOx, uint16_t GPIO_Pin)
         iocurrent = GPIO_Pin & ioposition;
         if (iocurrent == ioposition)
         {
-            
+            /*--------------------- EXTI Mode Configuration ------------------------*/
+            temp = SYSCFG->EXTICR[position >> 2];
+            temp &= (0x0FU << ((position & 0x03U) * 4U));
+            if(temp == ((uint32_t)(GPIO_BASEADDR_TO_CODE(pGPIOx)) << (4U * (position & 0x03U))))
+            {
+            EXTI->IMR &= ~(uint32_t)iocurrent;
+            EXTI->EMR &= ~(uint32_t)iocurrent;
+            EXTI->RTSR &= ~(uint32_t)iocurrent;
+            EXTI->FTSR &= ~(uint32_t)iocurrent;
+            temp = (0x0FU << ((position & 0x03U) * 4U));
+            SYSCFG->EXTICR[position >> 2] &= ~temp;
+            }
+            /*--------------------- GPIO Mode Configuration ------------------------*/
+            pGPIOx->MODER &= ~(GPIO_MODER_MODER0_Msk << (position * 2U));
+            pGPIOx->OTYPER &= ~(GPIO_OTYPER_OT0 << position);
+            pGPIOx->OSPEEDR &= ~(GPIO_OSPEEDR_OSPEED0_Msk << (position * 2U));
+            pGPIOx->PUPDR &= ~(GPIO_PUPDR_PUPD0_Msk << (position * 2U));
+            pGPIOx->AFR[position / 8U] &= ~(0x0FU << ((position % 8U) * 4U));
+
         }
     }
     
@@ -227,41 +293,38 @@ HAL_StatusTypeDef_t GPIO_LockPin(GPIO_RegDef_t *pGPIOx, uint16_t GPIO_Pin)
 /*
  * IRQ Configuration and ISR handling
  */
-void GPIO_IRQInterruptConfig(IRQ_TypeDef_t IRQNumber, HAL_ConfigState_t EnorDi)
+void GPIO_IRQEnable(IRQ_TypeDef_t IRQNumber)
 {
-    if ( EnorDi == ENABLE)
-    {
-        if (IRQNumber < 32) {
-            /* ISER0 */
-            NVIC->ISER[0] |= (1U << IRQNumber);
-        } else if (IRQNumber < 64) {
-            /* ISER1 */
-            NVIC->ISER[1] |= (1U << (IRQNumber % 32U));
-        } else if (IRQNumber < 96) {
-            /* ISER2 */
-            NVIC->ISER[2] |= (1U << (IRQNumber % 64U));
-        }
-    } else {
-        if (IRQNumber < 32) {
-            /* ICER0 */
-            NVIC->ICER[0] |= (1U << IRQNumber);
-        } else if (IRQNumber < 64) {
-            /* ICER1 */
-            NVIC->ICER[1] |= (1U << (IRQNumber % 32U));
-        } else if (IRQNumber < 96) {
-            /* ICER2 */
-            NVIC->ICER[2] |= (1U << (IRQNumber % 64U));
-        }
+    if (IRQNumber < 32) {
+        /* ISER0 */
+        NVIC->ISER[0] |= (1U << IRQNumber);
+    } else if (IRQNumber < 64) {
+        /* ISER1 */
+        NVIC->ISER[1] |= (1U << (IRQNumber % 32U));
+    } else if (IRQNumber < 96) {
+        /* ISER2 */
+        NVIC->ISER[2] |= (1U << (IRQNumber % 64U));
     }
 }
-void GPIO_IRQPriorityConfig(IRQ_TypeDef_t IRQNumber, uint32_t IRQPriority)
+void NVIC_IRQDisable(IRQ_TypeDef_t IRQNumber)
 {
-    uint8_t iprx = IRQNumber / 4;
-	uint8_t iprx_section  = IRQNumber %4 ;
-
-	uint8_t shift_amount = ( 8 * iprx_section ) + ( 8 - NO_PR_BITS_IMPLEMENTED );
-
-	*( NVIC->IP + iprx ) |=  ( IRQPriority << shift_amount );
+    if (IRQNumber < 32) {
+        /* ICER0 */
+        NVIC->ICER[0] |= (1U << IRQNumber);
+    } else if (IRQNumber < 64) {
+        /* ICER1 */
+        NVIC->ICER[1] |= (1U << (IRQNumber % 32U));
+    } else if (IRQNumber < 96) {
+        /* ICER2 */
+        NVIC->ICER[2] |= (1U << (IRQNumber % 64U));
+    }
+}
+void NVIC_IRQSetPriority(IRQ_TypeDef_t IRQNumber, uint32_t IRQPriority)
+{
+    uint32_t iprx = IRQNumber / 4;
+    uint32_t iprx_section = IRQNumber % 4;
+    uint32_t shift_amount = iprx_section * 8 + ( 8 - NO_PR_BITS_IMPLEMENTED );
+	NVIC->IP[iprx] |=  ( IRQPriority << shift_amount);
 }
 void GPIO_IRQHandler(uint16_t GPIO_Pin)
 {

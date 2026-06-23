@@ -29,8 +29,6 @@
   #define __packed __attribute__((packed))
 #endif
 
-#define NO_PR_BITS_IMPLEMENTED  4
-
 /**  
   * Peripheral_interrupt_number_definition
   */
@@ -462,9 +460,9 @@ typedef struct
  * Clock Enable Macros for I2Cx peripherals
 */
  
-#define I2C1_PCLK_EN()     (RCC->APB1ENR |= RCC_APB1EN_I2C1EN)
-#define I2C2_PCLK_EN()     (RCC->APB1ENR |= RCC_APB1EN_I2C2EN)
-#define I2C3_PCLK_EN()     (RCC->APB1ENR |= RCC_APB1EN_I2C3EN)
+#define I2C1_PCLK_EN()     (RCC->APB1ENR |= RCC_APB1ENR_I2C1EN)
+#define I2C2_PCLK_EN()     (RCC->APB1ENR |= RCC_APB1ENR_I2C2EN)
+#define I2C3_PCLK_EN()     (RCC->APB1ENR |= RCC_APB1ENR_I2C3EN)
 
 
 /*
@@ -490,7 +488,7 @@ typedef struct
  * Clock Enable Macros for SYSCFG peripherals
 */
 
-#define SYSCFG_PCLK_EN()   (RCC->APB2ENR |= RCC_APB2EN_SYSCFGEN)
+#define SYSCFG_PCLK_EN()   (RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN)
 
 /*
  * Clock Disable Macros for GPIOx peripherals
@@ -508,9 +506,9 @@ typedef struct
 /*
  * Clock Disable Macros for I2Cx peripherals
 */
-#define I2C1_PCLK_DI()     (RCC->APB1ENR &= ~(RCC_APB1EN_I2C1EN))
-#define I2C2_PCLK_DI()     (RCC->APB1ENR &= ~(RCC_APB1EN_I2C2EN))
-#define I2C3_PCLK_DI()     (RCC->APB1ENR &= ~(RCC_APB1EN_I2C3EN))
+#define I2C1_PCLK_DI()     (RCC->APB1ENR &= ~(RCC_APB1ENR_I2C1EN))
+#define I2C2_PCLK_DI()     (RCC->APB1ENR &= ~(RCC_APB1ENR_I2C2EN))
+#define I2C3_PCLK_DI()     (RCC->APB1ENR &= ~(RCC_APB1ENR_I2C3EN))
 
 /*
  * Clock Disable Macros for SPIx peripherals
@@ -533,7 +531,7 @@ typedef struct
 /*
  * Clock Disable Macros for SYSCFG peripherals
 */
-#define SYSCFG_PCLK_DI()   (RCC->APB2ENR &= ~(RCC_APB2EN_SYSCFGEN))
+#define SYSCFG_PCLK_DI()   (RCC->APB2ENR &= ~(RCC_APB2ENR_SYSCFGEN))
 
 
 /*
@@ -552,15 +550,14 @@ typedef struct
 /*
  * Return code for GPIO base address
  */
-#define GPIO_BASEADDR_TO_CODE(x)   ((x == GPIOA) ? 0 :\
-                                    (x == GPIOB) ? 1 :\
-                                    (x == GPIOC) ? 2 :\
-                                    (x == GPIOD) ? 3 :\
-                                    (x == GPIOE) ? 4 :\
-                                    (x == GPIOF) ? 5 :\
-                                    (x == GPIOG) ? 6 :\
-                                    (x == GPIOH) ? 7 :\
-                                    (x == GPIOI) ? 8 :0)
+#define GPIO_BASEADDR_TO_CODE(x)   ((x == GPIOA) ? 0U :\
+                                    (x == GPIOB) ? 1U :\
+                                    (x == GPIOC) ? 2U :\
+                                    (x == GPIOD) ? 3U :\
+                                    (x == GPIOE) ? 4U :\
+                                    (x == GPIOF) ? 5U :\
+                                    (x == GPIOG) ? 6U :\
+                                    (x == GPIOH) ? 7U : 8U)
 
 /******************************************************************************/
 /*                         Peripheral Registers_Bits_Definition               */

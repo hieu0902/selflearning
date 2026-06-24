@@ -10,6 +10,12 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#include <time.h>
+
+
+#define USE_FULL_ASSERT
+
+#include "stm32_assert_template.h"
 
 #ifndef __vo
   #define __vo volatile
@@ -119,11 +125,50 @@ typedef enum
     DCMI_IRQn                   = 78,     /*!< DCMI global interrupt                                             */
     RNG_IRQn                    = 80,     /*!< RNG global Interrupt                                              */
     FPU_IRQn                    = 81      /*!< FPU global interrupt                                              */
-} IRQn_Type;
+} IRQ_TypeDef_t;
+
+/**  
+  *  Configuration state
+  */
+typedef enum 
+{
+  DISABLE = 0,
+  ENABLE
+} HAL_ConfigState_t;
+
+/**  
+  *  Function return status
+  */
+typedef enum 
+{
+  HAL_OK       = 0x00U,
+  HAL_ERROR    = 0x01U,
+  HAL_BUSY     = 0x02U,
+  HAL_TIMEOUT  = 0x03U
+} HAL_StatusTypeDef_t;
 /**  
   *  Peripheral_registers_structures
   */
+/**
+  * @brief NVIC
+  */  
+typedef struct
+{
+    __vo uint32_t ISER[8U];   // Interrupt Set Enable Register
+    uint32_t RESERVED0[24U];
+    __vo uint32_t ICER[8U];   // Interrupt Clear Enable Register
+    uint32_t RESERVED1[24U];
+    __vo uint32_t ISPR[8U];   // Interrupt Set Pending Register
+    uint32_t RESERVED2[24U];
+    __vo uint32_t ICPR[8U];   // Interrupt Clear Pending Register
+    uint32_t RESERVED3[24U];
+    __vo uint32_t IABR[8U];   // Interrupt Active Bit Register
+    uint32_t RESERVED4[56U];
+    __vo uint8_t  IP[240U];   // Interrupt Priority Register
+    uint32_t RESERVED5[644U];
+    __vo  uint32_t STIR;       // Software Trigger Interrupt Register
 
+} NVIC_RegDef_t;
 /**
   * @brief GPIO
   */  
@@ -261,6 +306,7 @@ typedef struct
 #define ROM_BASEADDR   (0x1FFF0000UL)
 #define SRAM 		       SRAM1_BASEADDR
 
+#define NVIC_BASEADDR  (0xE000E100UL)
 /*
  * Define base addresses of AHBx and APBx bus peripheral
 */
@@ -395,28 +441,28 @@ typedef struct
 #define UART5               ((USART_RegDef_t *)UART5_BASEADDR)
 #define USART6              ((USART_RegDef_t *)USART6_BASEADDR)
 
+#define NVIC                ((NVIC_RegDef_t *)NVIC_BASEADDR)
 /*
  * Clock Enable Macros for GPIOx peripherals
 */
-#define GPIOA_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1EN_GPIOAEN)
-#define GPIOB_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1EN_GPIOBEN)
-#define GPIOC_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1EN_GPIOCEN)
-#define GPIOD_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1EN_GPIODEN)
-#define GPIOE_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1EN_GPIOEEN)
-#define GPIOF_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1EN_GPIOFEN)
-#define GPIOG_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1EN_GPIOGEN)
-#define GPIOH_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1EN_GPIOHEN)
-#define GPIOI_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1EN_GPIOIEN)
-#define GPIOJ_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1EN_GPIOJEN)
-#define GPIOK_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1EN_GPIOKEN)
+#define GPIOA_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN)
+#define GPIOB_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN)
+#define GPIOC_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN)
+#define GPIOD_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1ENR_GPIODEN)
+#define GPIOE_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1ENR_GPIOEEN)
+#define GPIOF_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1ENR_GPIOFEN)
+#define GPIOG_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1ENR_GPIOGEN)
+#define GPIOH_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1ENR_GPIOHEN)
+#define GPIOI_PCLK_EN()    (RCC->AHB1ENR |= RCC_AHB1ENR_GPIOIEN)
+
 
 /*
  * Clock Enable Macros for I2Cx peripherals
 */
  
-#define I2C1_PCLK_EN()     (RCC->APB1ENR |= RCC_APB1EN_I2C1EN)
-#define I2C2_PCLK_EN()     (RCC->APB1ENR |= RCC_APB1EN_I2C2EN)
-#define I2C3_PCLK_EN()     (RCC->APB1ENR |= RCC_APB1EN_I2C3EN)
+#define I2C1_PCLK_EN()     (RCC->APB1ENR |= RCC_APB1ENR_I2C1EN)
+#define I2C2_PCLK_EN()     (RCC->APB1ENR |= RCC_APB1ENR_I2C2EN)
+#define I2C3_PCLK_EN()     (RCC->APB1ENR |= RCC_APB1ENR_I2C3EN)
 
 
 /*
@@ -442,27 +488,27 @@ typedef struct
  * Clock Enable Macros for SYSCFG peripherals
 */
 
-#define SYSCFG_PCLK_EN()   (RCC->APB2ENR |= RCC_APB2EN_SYSCFGEN)
+#define SYSCFG_PCLK_EN()   (RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN)
 
 /*
  * Clock Disable Macros for GPIOx peripherals
 */
-#define GPIOA_PCLK_DI()    (RCC->AHB1ENR &= ~(RCC_AHB1EN_GPIOAEN))
-#define GPIOB_PCLK_DI()    (RCC->AHB1ENR &= ~(RCC_AHB1EN_GPIOBEN))
-#define GPIOC_PCLK_DI()    (RCC->AHB1ENR &= ~(RCC_AHB1EN_GPIOCEN))
-#define GPIOD_PCLK_DI()    (RCC->AHB1ENR &= ~(RCC_AHB1EN_GPIODEN))
-#define GPIOE_PCLK_DI()    (RCC->AHB1ENR &= ~(RCC_AHB1EN_GPIOEEN))
-#define GPIOF_PCLK_DI()    (RCC->AHB1ENR &= ~(RCC_AHB1EN_GPIOFEN))
-#define GPIOG_PCLK_DI()    (RCC->AHB1ENR &= ~(RCC_AHB1EN_GPIOGEN))
-#define GPIOH_PCLK_DI()    (RCC->AHB1ENR &= ~(RCC_AHB1EN_GPIOHEN))
-#define GPIOI_PCLK_DI()    (RCC->AHB1ENR &= ~(RCC_AHB1EN_GPIOIEN))
+#define GPIOA_PCLK_DI()    (RCC->AHB1ENR &= ~(RCC_AHB1ENR_GPIOAEN))
+#define GPIOB_PCLK_DI()    (RCC->AHB1ENR &= ~(RCC_AHB1ENR_GPIOBEN))
+#define GPIOC_PCLK_DI()    (RCC->AHB1ENR &= ~(RCC_AHB1ENR_GPIOCEN))
+#define GPIOD_PCLK_DI()    (RCC->AHB1ENR &= ~(RCC_AHB1ENR_GPIODEN))
+#define GPIOE_PCLK_DI()    (RCC->AHB1ENR &= ~(RCC_AHB1ENR_GPIOEEN))
+#define GPIOF_PCLK_DI()    (RCC->AHB1ENR &= ~(RCC_AHB1ENR_GPIOFEN))
+#define GPIOG_PCLK_DI()    (RCC->AHB1ENR &= ~(RCC_AHB1ENR_GPIOGEN))
+#define GPIOH_PCLK_DI()    (RCC->AHB1ENR &= ~(RCC_AHB1ENR_GPIOHEN))
+#define GPIOI_PCLK_DI()    (RCC->AHB1ENR &= ~(RCC_AHB1ENR_GPIOIEN))
 
 /*
  * Clock Disable Macros for I2Cx peripherals
 */
-#define I2C1_PCLK_DI()     (RCC->APB1ENR &= ~(RCC_APB1EN_I2C1EN))
-#define I2C2_PCLK_DI()     (RCC->APB1ENR &= ~(RCC_APB1EN_I2C2EN))
-#define I2C3_PCLK_DI()     (RCC->APB1ENR &= ~(RCC_APB1EN_I2C3EN))
+#define I2C1_PCLK_DI()     (RCC->APB1ENR &= ~(RCC_APB1ENR_I2C1EN))
+#define I2C2_PCLK_DI()     (RCC->APB1ENR &= ~(RCC_APB1ENR_I2C2EN))
+#define I2C3_PCLK_DI()     (RCC->APB1ENR &= ~(RCC_APB1ENR_I2C3EN))
 
 /*
  * Clock Disable Macros for SPIx peripherals
@@ -485,7 +531,8 @@ typedef struct
 /*
  * Clock Disable Macros for SYSCFG peripherals
 */
-#define SYSCFG_PCLK_DI()   (RCC->APB2ENR &= ~(RCC_APB2EN_SYSCFGEN))
+#define SYSCFG_PCLK_DI()   (RCC->APB2ENR &= ~(RCC_APB2ENR_SYSCFGEN))
+
 
 /*
  * Macros to reset GPIOx peripherals
@@ -503,15 +550,14 @@ typedef struct
 /*
  * Return code for GPIO base address
  */
-#define GPIO_BASEADDR_TO_CODE(x)   ((x == GPIOA) ? 0 :\
-                                    (x == GPIOB) ? 1 :\
-                                    (x == GPIOC) ? 2 :\
-                                    (x == GPIOD) ? 3 :\
-                                    (x == GPIOE) ? 4 :\
-                                    (x == GPIOF) ? 5 :\
-                                    (x == GPIOG) ? 6 :\
-                                    (x == GPIOH) ? 7 :\
-                                    (x == GPIOI) ? 8 :0)
+#define GPIO_BASEADDR_TO_CODE(x)   ((x == GPIOA) ? 0U :\
+                                    (x == GPIOB) ? 1U :\
+                                    (x == GPIOC) ? 2U :\
+                                    (x == GPIOD) ? 3U :\
+                                    (x == GPIOE) ? 4U :\
+                                    (x == GPIOF) ? 5U :\
+                                    (x == GPIOG) ? 6U :\
+                                    (x == GPIOH) ? 7U : 8U)
 
 /******************************************************************************/
 /*                         Peripheral Registers_Bits_Definition               */
@@ -607,9 +653,9 @@ typedef struct
 #define GPIO_MODER_MODER15_1             (0x2UL << GPIO_MODER_MODER15_Pos)      /*!< 0x80000000 */
 
 /********************  Bit definition for GPIO_OTYPER register  ********************/
-#define GPIO_OTYPER_OT0_Pos             (0U)
-#define GPIO_OTYPER_OT0_Msk             (0x1UL << GPIO_OTYPER_OT0_Pos)        /*!< 0x00000001 */
-#define GPIO_OTYPER_OT0                 GPIO_OTYPER_OT0_Msk
+#define GPIO_OTYPER_OT0_Pos              (0U)
+#define GPIO_OTYPER_OT0_Msk              (0x1UL << GPIO_OTYPER_OT0_Pos)        /*!< 0x00000001 */
+#define GPIO_OTYPER_OT0                  GPIO_OTYPER_OT0_Msk
 #define GPIO_OTYPER_OT1_Pos              (1U)
 #define GPIO_OTYPER_OT1_Msk              (0x1UL << GPIO_OTYPER_OT1_Pos)         /*!< 0x00000002 */
 #define GPIO_OTYPER_OT1                  GPIO_OTYPER_OT1_Msk
@@ -2726,8 +2772,7 @@ typedef struct
                                         ((INSTANCE) == GPIOF) || \
                                         ((INSTANCE) == GPIOG) || \
                                         ((INSTANCE) == GPIOH) || \
-                                        ((INSTANCE) == GPIOI) || \
-                                        ((INSTANCE) == GPIOJ))
+                                        ((INSTANCE) == GPIOI))
 
 /******************************* SPI Instances *******************************/
 #define IS_SPI_ALL_INSTANCE(INSTANCE) (((INSTANCE) == SPI1) || \
@@ -2752,6 +2797,9 @@ typedef struct
                                                ((INSTANCE) == UART4)  || \
                                                ((INSTANCE) == UART5)  || \
                                                ((INSTANCE) == USART6))
+
+
+
 
 /*
  * Revision history 

@@ -135,9 +135,9 @@ typedef enum
                               (SPEED) == GPIO_SPEED_MEDIUM  || \
                               (SPEED) == GPIO_SPEED_FAST    || \
                               (SPEED) == GPIO_SPEED_HIGH)
-#define IS_GPIO_PUPD(PUPD) ((PUPD) == GPIO_PUPD_NO || \
-                            (PUPD) == GPIO_PUPD_UP || \
-                            (PUPD) == GPIO_PUPD_DOWN)
+#define IS_GPIO_PUPD(PUPD) ((PUPD == GPIO_PUPD_NO) || \
+                            (PUPD == GPIO_PUPD_UP) || \
+                            (PUPD == GPIO_PUPD_DOWN))
 /******************************************************************************************
  *								APIs supported by this driver
  *		 For more information about the APIs check the function definitions

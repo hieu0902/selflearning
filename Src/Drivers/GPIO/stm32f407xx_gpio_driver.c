@@ -83,7 +83,7 @@ void GPIO_Init(GPIO_RegDef_t *pGPIOx, GPIO_InitTypeDef_t *InitConfig)
 
             if ((InitConfig->GPIO_PinMode & MODE_Msk) != MODE_ANALOG)
             {
-                IS_GPIO_PUPD(InitConfig->GPIO_PinPuPdControl);
+                assert_param(IS_GPIO_PUPD(InitConfig->GPIO_PinPuPdControl));
                 /* Config PUPD if not in Analog Mode */
                 temp = pGPIOx->PUPDR;
                 temp &= ~(GPIO_PUPDR_PUPD0_Msk << (position * 2U));

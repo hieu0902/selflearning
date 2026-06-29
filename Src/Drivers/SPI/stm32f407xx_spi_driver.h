@@ -7,6 +7,13 @@
 #ifndef STM32F407XX_SPI_DRIVER_H
 #define STM32F407XX_SPI_DRIVER_H
 
+typedef struct {
+
+} SPI_InitTypeDef_t;
+
+typedef struct {
+
+} SPI_Handle_t;
 /*
 
 */

@@ -134,7 +134,16 @@ typedef enum
 {
   DISABLE = 0,
   ENABLE
-} HAL_ConfigState_t;
+} HAL_State_t;
+
+/**  
+  *  Lock state
+  */
+typedef enum 
+{
+  HAL_UNLOCKED = 0x00U,
+  HAL_LOCKED   = 0x01U  
+} HAL_LockTypeDef;
 
 /**  
   *  Function return status
@@ -149,6 +158,7 @@ typedef enum
 /**  
   *  Peripheral_registers_structures
   */
+ 
 /**
   * @brief NVIC
   */  

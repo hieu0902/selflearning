@@ -15,7 +15,7 @@
 /*
  * Peripheral Clock setup
  */
-void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, HAL_ConfigState_t ClockState)
+void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, HAL_State_t ClockState)
 {
     /* Check user input */
     assert_param(IS_GPIO_ALL_INSTANCE(pGPIOx));

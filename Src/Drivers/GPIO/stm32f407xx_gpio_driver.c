@@ -57,7 +57,8 @@ void GPIO_Init(GPIO_RegDef_t *pGPIOx, GPIO_InitTypeDef_t *InitConfig)
     assert_param(IS_GPIO_ALL_INSTANCE(pGPIOx));
     assert_param(IS_GPIO_PIN(InitConfig->GPIO_PinNumber));
     assert_param(IS_GPIO_MODE(InitConfig->GPIO_PinMode));
-
+    
+    GPIO_PeriClockControl(pGPIOx, ENABLE);
     for (position = 0U; position < GPIO_NUMBER; position++)
     {
         ioposition = 0x01 << position;
@@ -151,10 +152,9 @@ void GPIO_Init(GPIO_RegDef_t *pGPIOx, GPIO_InitTypeDef_t *InitConfig)
                 EXTI->EMR = temp;
             } 
         }
-
-        
     }
 }
+
 void GPIO_Deinit(GPIO_RegDef_t *pGPIOx, uint16_t GPIO_Pin)
 {   
     uint32_t position;

@@ -63,26 +63,41 @@ void SPI_PeriClockControl(SPI_RegDef_t *pSPIx, HAL_State_t EnorDi);
 /*
  * Init and De-init
  */
-void GPIO_Init(GPIO_RegDef_t *pGPIOx, GPIO_InitTypeDef_t *InitConfig);
-void GPIO_DeInit(GPIO_RegDef_t *pGPIOx, uint16_t GPIO_Pin);
-void GPIO_Port_Deinit(GPIO_RegDef_t *pGPIOx);
+void SPI_Init(SPI_RegDef_t *pSPIx, SPI_InitTypeDef_t *InitConfig);
+void SPI_DeInit(SPI_RegDef_t *pSPIx);
+
 /*
- * Data read and write
+ * Data Send and Receive
  */
-GPIO_PinState_t GPIO_ReadFromInputPin(GPIO_RegDef_t *pGPIOx, uint16_t GPIO_Pin);
-uint16_t GPIO_ReadFromInputPort(GPIO_RegDef_t *pGPIOx);
-void GPIO_WriteToOutputPin(GPIO_RegDef_t *pGPIOx, uint16_t GPIO_Pin, GPIO_PinState_t PinState);
-void GPIO_WriteToOutputPort(GPIO_RegDef_t *pGPIOx, uint16_t PortState);
-void GPIO_TogglePin(GPIO_RegDef_t *pGPIOx, uint16_t GPIO_Pin);
-HAL_StatusTypeDef_t GPIO_LockPin(GPIO_RegDef_t *pGPIOx, uint16_t GPIO_Pin);
+void SPI_SendData(SPI_RegDef_t *pSPIx,uint8_t *pTxBuffer, uint32_t Len);
+void SPI_ReceiveData(SPI_RegDef_t *pSPIx, uint8_t *pRxBuffer, uint32_t Len);
+
+uint8_t SPI_SendDataIT(SPI_Handle_t *pSPIHandle,uint8_t *pTxBuffer, uint32_t Len);
+uint8_t SPI_ReceiveDataIT(SPI_Handle_t *pSPIHandle, uint8_t *pRxBuffer, uint32_t Len);
+
 /*
  * IRQ Configuration and ISR handling
  */
-void NVIC_IRQEnable(IRQ_TypeDef_t IRQNumber);
-void NVIC_IRQDisable(IRQ_TypeDef_t IRQNumber);
-void NVIC_IRQSetPriority(IRQ_TypeDef_t IRQNumber, uint32_t IRQPriority);
-void GPIO_IRQHandler(uint16_t GPIO_Pin);
-__weak void GPIO_IRQ_Callback(uint16_t GPIO_Pin);
+void SPI_IRQInterruptConfig(uint8_t IRQNumber, uint8_t EnorDi);
+void SPI_IRQPriorityConfig(uint8_t IRQNumber, uint32_t IRQPriority);
+void SPI_IRQHandling(SPI_Handle_t *pHandle);
+
+/*
+ * Other Peripheral Control APIs
+ */
+void SPI_PeripheralControl(SPI_RegDef_t *pSPIx, uint8_t EnOrDi);
+void SPI_SSIConfig(SPI_RegDef_t *pSPIx, uint8_t EnOrDi);
+void SPI_SSOEConfig(SPI_RegDef_t *pSPIx, uint8_t EnOrDi);
+uint8_t SPI_GetFlagStatus(SPI_RegDef_t *pSPIx , uint32_t FlagName);
+void SPI_ClearOVRFlag(SPI_RegDef_t *pSPIx);
+void SPI_CloseTransmisson(SPI_Handle_t *pSPIHandle);
+void SPI_CloseReception(SPI_Handle_t *pSPIHandle);
+uint8_t I2C_DeviceMode(I2C_RegDef_t *I2Cx);
+
+/*
+ * Application callback
+ */
+void SPI_ApplicationEventCallback(SPI_Handle_t *pSPIHandle,uint8_t AppEv);
 
 */
 /*

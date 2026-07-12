@@ -56,6 +56,35 @@ typedef struct {
 /*
 
 /*
+ * SPI Error codes
+ */
+#define SPI_ERROR_NONE      (0x00000000U)   /*!< No error             */
+#define SPI_ERROR_MODF      (0x00000001U)   /*!< MODF error           */
+#define SPI_ERROR_CRC       (0x00000002U)   /*!< CRC error             */
+#define SPI_ERROR_OVR       (0x00000004U)   /*!< OVR error             */
+#define SPI_ERROR_FRE       (0x00000008U)   /*!< FRE error             */
+#define SPI_ERROR_DMA       (0x80000010U)   /*!< DMA error             */
+#define SPI_ERROR_FLAG      (0x00000020U)   /*!< Flag error             */
+
+/*
+ * SPI Device Modes
+ */
+#define SPI_MODE_MASTER     (0x00000000U)   /*!< Master mode            */
+#define SPI_MODE_SLAVE      (0x00000001U)   /*!< Slave mode             */
+
+/*
+ * SPI Direction Configurations
+ */
+#define SPI_DIRECTION_2LINES   (0x00000000U)   /*!< Full duplex             */
+#define SPI_DIRECTION_2LINES_RXONLY   (0x00000001U)   /*!< Half duplex             */
+#define SPI_DIRECTION_1LINE (0x00000002U)   /*!< Simplex receive only mode     */
+
+/*
+ * SPI Data Frame Format
+ */
+#define SPI_DFF_8BITS       (0x00000000U)   /*!< 8 bits data frame format     */
+#define SPI_DFF_16BITS      (0x00000001U)   /*!< 16 bits data frame format    */
+/*
  * Peripheral Clock setup
  */
 void SPI_PeriClockControl(SPI_RegDef_t *pSPIx, HAL_State_t EnorDi);

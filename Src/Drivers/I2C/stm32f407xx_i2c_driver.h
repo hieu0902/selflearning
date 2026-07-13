@@ -36,7 +36,7 @@ typedef struct
     uint8_t         Sr;			/* !< To store repeated start value  > */
 } I2C_Handle_t;
 
-void I2C_PeriClockControl(I2C_RegDef_t *pI2Cx, HAL_State_t EnorDi)
+void I2C_PeriClockControl(I2C_RegDef_t *pI2Cx, HAL_StateTypeDef_t EnorDi)
 {
     if (EnorDi == ENABLE)
     {

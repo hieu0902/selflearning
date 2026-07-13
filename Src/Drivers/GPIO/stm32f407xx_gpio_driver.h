@@ -116,28 +116,28 @@ typedef enum
  * GPIO Private Macros
  */
 
-#define IS_GPIO_PIN_ACTION(ACTION) (((ACTION) == (GPIO_PIN_SET)) || ((ACTION) == (GPIO_PIN_RESET)))
-#define IS_GPIO_PIN(PIN) (((((uint32_t)PIN) & GPIO_PIN_MASK) != 0x00U) && ((((uint32_t)PIN) & ~GPIO_PIN_MASK) == 0x00U))
-#define IS_GPIO_MODE(MODE) ((MODE == GPIO_MODE_INPUT)   || \
-                            (MODE == GPIO_MODE_OUTPUT_PP)  || \
-                            (MODE == GPIO_MODE_OUTPUT_OD)  || \
-                            (MODE == GPIO_MODE_AF_PP)   || \
-                            (MODE == GPIO_MODE_AF_OD)   || \
-                            (MODE == GPIO_MODE_ANALOG)  || \
-                            (MODE == GPIO_MODE_IT_FALLING)   || \
-                            (MODE == GPIO_MODE_IT_RISING)   || \
-                            (MODE == GPIO_MODE_IT_BOTH)   || \
-                            (MODE == GPIO_MODE_EVT_FALLING)   || \
-                            (MODE == GPIO_MODE_EVT_RISING)   || \
-                            (MODE == GPIO_MODE_EVT_BOTH))
-#define IS_GPIO_OP_TYPE(TYPE) ((TYPE) == GPIO_OP_TYPE_PP || (TYPE) == GPIO_OP_TYPE_OD)
-#define IS_GPIO_SPEED(SPEED) ((SPEED) == GPIO_SPEED_LOW     || \
-                              (SPEED) == GPIO_SPEED_MEDIUM  || \
-                              (SPEED) == GPIO_SPEED_FAST    || \
-                              (SPEED) == GPIO_SPEED_HIGH)
-#define IS_GPIO_PUPD(PUPD) ((PUPD == GPIO_PUPD_NO) || \
-                            (PUPD == GPIO_PUPD_UP) || \
-                            (PUPD == GPIO_PUPD_DOWN))
+#define IS_GPIO_PIN_ACTION(__ACTION__) (((__ACTION__) == (GPIO_PIN_SET)) || ((__ACTION__) == (GPIO_PIN_RESET)))
+#define IS_GPIO_PIN(__PIN__) (((((uint32_t)(__PIN__)) & GPIO_PIN_MASK) != 0x00U) && ((((uint32_t)(__PIN__)) & ~GPIO_PIN_MASK) == 0x00U))
+#define IS_GPIO_MODE(__MODE__) ((__MODE__ == GPIO_MODE_INPUT)   || \
+                                (__MODE__ == GPIO_MODE_OUTPUT_PP)  || \
+                                (__MODE__ == GPIO_MODE_OUTPUT_OD)  || \
+                                (__MODE__ == GPIO_MODE_AF_PP)   || \
+                                (__MODE__ == GPIO_MODE_AF_OD)   || \
+                                (__MODE__ == GPIO_MODE_ANALOG)  || \
+                                (__MODE__ == GPIO_MODE_IT_FALLING)   || \
+                                (__MODE__ == GPIO_MODE_IT_RISING)   || \
+                                (__MODE__ == GPIO_MODE_IT_BOTH)   || \
+                                (__MODE__ == GPIO_MODE_EVT_FALLING)   || \
+                                (__MODE__ == GPIO_MODE_EVT_RISING)   || \
+                                (__MODE__ == GPIO_MODE_EVT_BOTH))
+#define IS_GPIO_OP_TYPE(__TYPE__) (((__TYPE__) == GPIO_OP_TYPE_PP) || ((__TYPE__) == GPIO_OP_TYPE_OD))
+#define IS_GPIO_SPEED(__SPEED__) (((__SPEED__) == GPIO_SPEED_LOW)     || \
+                                  ((__SPEED__) == GPIO_SPEED_MEDIUM)  || \
+                                  ((__SPEED__) == GPIO_SPEED_FAST)    || \
+                                  ((__SPEED__) == GPIO_SPEED_HIGH))
+#define IS_GPIO_PUPD(__PUPD__) ((__PUPD__ == GPIO_PUPD_NO) || \
+                                (__PUPD__ == GPIO_PUPD_UP) || \
+                                (__PUPD__ == GPIO_PUPD_DOWN))
 /******************************************************************************************
  *								APIs supported by this driver
  *		 For more information about the APIs check the function definitions
@@ -147,7 +147,7 @@ typedef enum
 /*
  * Peripheral Clock setup
  */
-void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, HAL_State_t EnorDi);
+void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, HAL_StateTypeDef_t EnorDi);
 
 /*
  * Init and De-init

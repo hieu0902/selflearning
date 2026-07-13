@@ -134,7 +134,7 @@ typedef enum
 {
   DISABLE = 0,
   ENABLE
-} HAL_State_t;
+} HAL_StateTypeDef_t;
 
 /**  
   *  Lock state
@@ -143,7 +143,7 @@ typedef enum
 {
   HAL_UNLOCKED = 0x00U,
   HAL_LOCKED   = 0x01U  
-} HAL_LockTypeDef;
+} HAL_LockTypeDef_t;
 
 /**  
   *  Function return status

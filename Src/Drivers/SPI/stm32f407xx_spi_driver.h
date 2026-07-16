@@ -149,6 +149,10 @@ typedef struct {
 #define SPI_IT_ERR        (0x00000004U)   /*!< Error interrupt                 */
 
 /* Private macros ------------------------------------------------------------*/
+#define IS_SPI_ALL_INSTANCE(INSTANCE) (((INSTANCE) == SPI1) || \
+                                     ((INSTANCE) == SPI2) || \
+                                     ((INSTANCE) == SPI3))
+
 #define IS_SPI_MODE(__MODE__) (((__MODE__) == SPI_MODE_MASTER) || ((__MODE__) == SPI_MODE_SLAVE))
 
 #define IS_SPI_DIRECTION(__DIRECTION__) (((__DIRECTION__) == SPI_DIRECTION_2LINES) || \
@@ -189,17 +193,17 @@ void SPI_PeriClockControl(SPI_HandleTypeDef_t *pSPIHandle, HAL_StateTypeDef_t Cl
 /*
  * Init and De-init
  */
-SPI_StateTypeDef_t SPI_Init(SPI_HandleTypeDef_t *pSPIHandle, SPI_InitTypeDef_t *InitConfig);
-SPI_StateTypeDef_t SPI_DeInit(SPI_HandleTypeDef_t *pSPIHandle);
+HAL_StatusTypeDef_t SPI_Init(SPI_HandleTypeDef_t *pSPIHandle, SPI_InitTypeDef_t *InitConfig);
+HAL_StatusTypeDef_t SPI_DeInit(SPI_HandleTypeDef_t *pSPIHandle);
 
 /*
  * Data Send and Receive
  */
-SPI_StateTypeDef_t SPI_SendData(SPI_HandleTypeDef_t *pSPIHandle,uint8_t *pTxBuffer, uint32_t Len);
-SPI_StateTypeDef_t SPI_ReceiveData(SPI_HandleTypeDef_t *pSPIHandle, uint8_t *pRxBuffer, uint32_t Len);
+HAL_StatusTypeDef_t SPI_SendData(SPI_HandleTypeDef_t *pSPIHandle,uint8_t *pTxBuffer, uint32_t Len);
+HAL_StatusTypeDef_t SPI_ReceiveData(SPI_HandleTypeDef_t *pSPIHandle, uint8_t *pRxBuffer, uint32_t Len);
 
-SPI_StateTypeDef_t SPI_SendDataIT(SPI_HandleTypeDef_t *pSPIHandle,uint8_t *pTxBuffer, uint32_t Len);
-SPI_StateTypeDef_t SPI_ReceiveDataIT(SPI_HandleTypeDef_t *pSPIHandle, uint8_t *pRxBuffer, uint32_t Len);
+HAL_StatusTypeDef_t SPI_SendDataIT(SPI_HandleTypeDef_t *pSPIHandle,uint8_t *pTxBuffer, uint32_t Len);
+HAL_StatusTypeDef_t SPI_ReceiveDataIT(SPI_HandleTypeDef_t *pSPIHandle, uint8_t *pRxBuffer, uint32_t Len);
 
 /*
  * IRQ Configuration and ISR handling

@@ -45,8 +45,27 @@ void SPI_PeriClockControl(SPI_HandleTypeDef_t *pSPIHandle, HAL_StateTypeDef_t Cl
 /*
  * Init and De-init
  */
-SPI_StateTypeDef_t SPI_Init(SPI_HandleTypeDef_t *pSPIHandle, SPI_InitTypeDef_t *InitConfig);
-SPI_StateTypeDef_t SPI_DeInit(SPI_HandleTypeDef_t *pSPIHandle);
+HAL_StatusTypeDef_t SPI_Init(SPI_HandleTypeDef_t *pSPIHandle)
+{
+    if ( pSPIHandle == NULL )
+    {
+        return HAL_ERROR;
+    }
+
+    assert_param(IS_SPI_ALL_INSTANCE(pSPIHandle->pSPIx));
+    assert_param(IS_SPI_MODE(pSPIHandle->SPI_Init.SPI_Mode));
+    assert_param(IS_SPI_DIRECTION(pSPIHandle->SPI_Init.SPI_Direction));
+    assert_param(IS_SPI_DFF(pSPIHandle->SPI_Init.SPI_DFF));
+    assert_param(IS_SPI_CPOL(pSPIHandle->SPI_Init.SPI_CPOL));
+    assert_param(IS_SPI_CPHA(pSPIHandle->SPI_Init.SPI_CPHA));
+    assert_param(IS_SPI_SSM(pSPIHandle->SPI_Init.SPI_SSM));
+    assert_param(IS_SPI_BAUDRATE_PRESCALER(pSPIHandle->SPI_Init.SPI_BaudRatePrescaler));
+    assert_param(IS_SPI_FIRSTBIT(pSPIHandle->SPI_Init.SPI_BitOrder));
+
+    
+
+}
+HAL_StatusTypeDef_t SPI_DeInit(SPI_HandleTypeDef_t *pSPIHandle);
 
 /*
  * Revision history 

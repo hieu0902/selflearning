@@ -59,11 +59,37 @@ HAL_StatusTypeDef_t SPI_Init(SPI_HandleTypeDef_t *pSPIHandle)
     assert_param(IS_SPI_CPOL(pSPIHandle->SPI_Init.SPI_CPOL));
     assert_param(IS_SPI_CPHA(pSPIHandle->SPI_Init.SPI_CPHA));
     assert_param(IS_SPI_SSM(pSPIHandle->SPI_Init.SPI_SSM));
-    assert_param(IS_SPI_BAUDRATE_PRESCALER(pSPIHandle->SPI_Init.SPI_BaudRatePrescaler));
     assert_param(IS_SPI_FIRSTBIT(pSPIHandle->SPI_Init.SPI_BitOrder));
 
-    
+    if (pSPIHandle->SPI_Init.SPI_TIMode == SPI_TIMODE_ENABLE)
+    {
+        assert_param(IS_SPI_TIMODE(pSPIHandle->SPI_Init.SPI_TIMode));
 
+        if(pSPIHandle->SPI_Init.SPI_Mode == SPI_MODE_MASTER)
+        {
+            assert_param(IS_SPI_BAUDRATE_PRESCALER(pSPIHandle->SPI_Init.SPI_BaudRatePrescaler));
+        } 
+        else 
+        {
+            pSPIHandle->SPI_Init.SPI_BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;
+        }
+    }
+    else
+    {
+        assert_param(IS_SPI_BAUDRATE_PRESCALER(pSPIHandle->SPI_Init.SPI_BaudRatePrescaler));
+
+        pSPIHandle->SPI_Init.SPI_CPHA = SPI_CPHA_1EDGE;
+        pSPIHandle->SPI_Init.SPI_CPOL = SPI_CPOL_LOW;
+    }
+
+    // SPI DISABLE
+    pSPIHandle->State = SPI_STATE_BUSY;
+
+/*----------------------- SPIx CR1 & CR2 Configuration ---------------------*/
+/* Configure : SPI Mode, Communication Mode, Data size, Clock polarity and phase, NSS management,
+  Communication speed, First bit and CRC calculation state */
+    uint32_t temp_reg = 0;
+    temp_reg |= SPI_CR1_MSTR;
 }
 HAL_StatusTypeDef_t SPI_DeInit(SPI_HandleTypeDef_t *pSPIHandle);
 

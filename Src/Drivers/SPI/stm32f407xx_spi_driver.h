@@ -101,8 +101,8 @@ typedef struct {
 /*
  * SPI Clock Phase
  */
-#define SPI_CPHA_LOW        (0x00000000U)   /*!< Data is captured on the first clock transition */
-#define SPI_CPHA_HIGH       (0x00000001U)   /*!< Data is captured on the second clock transition */
+#define SPI_CPHA_1EDGE        (0x00000000U)   /*!< Data is captured on the first clock transition */
+#define SPI_CPHA_2EDGE       (0x00000001U)   /*!< Data is captured on the second clock transition */
 
 /*
  * SPI Software Slave Management
@@ -163,7 +163,7 @@ typedef struct {
 
 #define IS_SPI_CPOL(__CPOL__) (((__CPOL__) == SPI_CPOL_LOW) || ((__CPOL__) == SPI_CPOL_HIGH))
 
-#define IS_SPI_CPHA(__CPHA__) (((__CPHA__) == SPI_CPHA_LOW) || ((__CPHA__) == SPI_CPHA_HIGH))
+#define IS_SPI_CPHA(__CPHA__) (((__CPHA__) == SPI_CPHA_1EDGE) || ((__CPHA__) == SPI_CPHA_2EDGE))
 
 #define IS_SPI_SSM(__SSM__) (((__SSM__) == SPI_SSM_DI) || ((__SSM__) == SPI_SSM_EN))
 
@@ -223,6 +223,7 @@ void SPI_ClearOVRFlag(SPI_HandleTypeDef_t *pSPIHandle);
 void SPI_CloseTransmisson(SPI_HandleTypeDef_t *pSPIHandle);
 void SPI_CloseReception(SPI_HandleTypeDef_t *pSPIHandle);
 
+
 /*
  * Application callback
  */
@@ -239,7 +240,7 @@ void SPI_AbortCpltCallback(SPI_HandleTypeDef_t *pSPIHandle);
 
 /* Peripheral State and Error functions ***************************************/
 SPI_StateTypeDef_t HAL_SPI_GetState(const SPI_HandleTypeDef_t *hspi);
-uint32_t             HAL_SPI_GetError(const SPI_HandleTypeDef_t *hspi);
+uint32_t HAL_SPI_GetError(const SPI_HandleTypeDef_t *hspi);
 /*
  * Revision history 
     * 27-May-2025: Initial version

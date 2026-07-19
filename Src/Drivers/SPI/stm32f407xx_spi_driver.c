@@ -90,6 +90,7 @@ HAL_StatusTypeDef_t SPI_Init(SPI_HandleTypeDef_t *pSPIHandle)
   Communication speed, First bit and CRC calculation state */
     uint32_t temp_reg = 0;
     temp_reg |= SPI_CR1_MSTR;
+    temp_reg |= SPI_CR1_CPHA;
 }
 HAL_StatusTypeDef_t SPI_DeInit(SPI_HandleTypeDef_t *pSPIHandle);
 

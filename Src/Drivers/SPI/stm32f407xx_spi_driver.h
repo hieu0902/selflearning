@@ -182,7 +182,7 @@ typedef struct {
 #define IS_SPI_CRCCALCULATION(__CRCCALCULATION__) (((__CRCCALCULATION__) == SPI_CRCCALCULATION_DISABLE) || \
                                                     ((__CRCCALCULATION__) == SPI_CRCCALCULATION_ENABLE))
 
-#define IS_SPI_CRC_POLYNOMIAL(__POLYNOMIAL__) ((__POLYNOMIAL__) >= 0x0000U && (__POLYNOMIAL__) <= 0xFFFFU)
+#define IS_SPI_CRC_POLYNOMIAL(__POLYNOMIAL__) ((__POLYNOMIAL__) >= 0x0001U && (__POLYNOMIAL__) <= 0xFFFFU)
 
 /* Exported functions --------------------------------------------------------*/
 /*
@@ -193,7 +193,7 @@ void SPI_PeriClockControl(SPI_HandleTypeDef_t *pSPIHandle, HAL_StateTypeDef_t Cl
 /*
  * Init and De-init
  */
-HAL_StatusTypeDef_t SPI_Init(SPI_HandleTypeDef_t *pSPIHandle, SPI_InitTypeDef_t *InitConfig);
+HAL_StatusTypeDef_t SPI_Init(SPI_HandleTypeDef_t *pSPIHandle);
 HAL_StatusTypeDef_t SPI_DeInit(SPI_HandleTypeDef_t *pSPIHandle);
 
 /*
@@ -239,8 +239,8 @@ void SPI_AbortCpltCallback(SPI_HandleTypeDef_t *pSPIHandle);
 
 
 /* Peripheral State and Error functions ***************************************/
-SPI_StateTypeDef_t HAL_SPI_GetState(const SPI_HandleTypeDef_t *hspi);
-uint32_t HAL_SPI_GetError(const SPI_HandleTypeDef_t *hspi);
+SPI_StateTypeDef_t HAL_SPI_GetState(const SPI_HandleTypeDef_t *pSPIHandle);
+uint32_t HAL_SPI_GetError(const SPI_HandleTypeDef_t *pSPIHandle);
 /*
  * Revision history 
     * 27-May-2025: Initial version

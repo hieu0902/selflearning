@@ -84,6 +84,7 @@ HAL_StatusTypeDef_t SPI_Init(SPI_HandleTypeDef_t *pSPIHandle)
         pSPIHandle->SPI_Init.SPI_CPHA = SPI_CPHA_1EDGE;
         pSPIHandle->SPI_Init.SPI_CPOL = SPI_CPOL_LOW;
     }
+
     if (pSPIHandle->SPI_Init.SPI_CRCCalc == SPI_CRCCALCULATION_ENABLE)
     {
         assert_param(IS_SPI_CRCCALCULATION(pSPIHandle->SPI_Init.SPI_CRCCalc));
@@ -144,6 +145,72 @@ HAL_StatusTypeDef_t SPI_DeInit(SPI_HandleTypeDef_t *pSPIHandle)
 
     return HAL_OK;
 
+}
+
+HAL_StatusTypeDef_t SPI_Transmit(SPI_HandleTypeDef_t *pSPIHandle, const uint8_t *pTxBuf, uint16_t TxLen, uint32_t Timeout)
+{
+    if (pSPIHandle == NULL || pTxBuf == NULL || TxLen == 0)
+    {
+        return HAL_ERROR;
+    }
+
+    assert_param(IS_SPI_ALL_INSTANCE(pSPIHandle->pSPIx));
+
+    pSPIHandle->State = SPI_STATE_BUSY_TX;
+
+    pSPIHandle->pTxBuf = pTxBuf;
+    pSPIHandle->TxLen = TxLen;
+    pSPIHandle->TxXferCount = TxLen;
+
+    while (pSPIHandle->TxXferCount > 0)
+    {
+        while (!(pSPIHandle->pSPIx->SR & SPI_SR_TXE))
+        {
+            if (Timeout == 0)
+            {
+                pSPIHandle->State = SPI_STATE_READY;
+                return HAL_TIMEOUT;
+            }
+            Timeout--;
+        }
+
+        if (pSPIHandle->SPI_Init.SPI_DFF == SPI_DFF_16BITS)
+        {
+            pSPIHandle->pSPIx->DR = *((uint16_t *)pSPIHandle->pTxBuf);
+            pSPIHandle->pTxBuf += 2;
+            pSPIHandle->TxXferCount -= 2;
+        }
+        else
+        {
+            pSPIHandle->pSPIx->DR = *pSPIHandle->pTxBuf;
+            pSPIHandle->pTxBuf++;
+            pSPIHandle->TxXferCount--;
+        }
+    }
+
+    while (!(pSPIHandle->pSPIx->SR & SPI_SR_TXE))
+    {
+        if (Timeout == 0)
+        {
+            pSPIHandle->State = SPI_STATE_READY;
+            return HAL_TIMEOUT;
+        }
+        Timeout--;
+    }
+
+    while (pSPIHandle->pSPIx->SR & SPI_SR_BSY)
+    {
+        if (Timeout == 0)
+        {
+            pSPIHandle->State = SPI_STATE_READY;
+            return HAL_TIMEOUT;
+        }
+        Timeout--;
+    }
+
+    pSPIHandle->State = SPI_STATE_READY;
+
+    return HAL_OK;
 }
 
 /*
